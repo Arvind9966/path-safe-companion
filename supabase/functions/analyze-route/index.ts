@@ -251,33 +251,51 @@ function getMockScenario(origin: string, destination: string, time: string) {
   // Check if it's a night scenario
   const isNight = time && (new Date(time).getHours() >= 22 || new Date(time).getHours() <= 6);
   
-  if (isNight || origin.toLowerCase().includes('college') || destination.toLowerCase().includes('home')) {
+  if (isNight || origin.toLowerCase().includes('college') || destination.toLowerCase().includes('university')) {
     return {
       risk_score: 78,
-      short_reason: "Dim street lights and low foot traffic at night near Link Road.",
+      short_reason: "Dim street lights and low pedestrian traffic at night.",
       detailed_reason: [
-        "3 incidents reported in past 12 months within 500m",
-        "Low streetlight density, CCTV coverage minimal",
-        "Isolated stretch with low pedestrian traffic after 10 PM"
+        "Limited street lighting between university and station",
+        "Low foot traffic after 10 PM on this route",
+        "2 safety incidents reported in past 6 months"
       ],
-      recommended_route: "Take Main Road (Route B) — slightly longer but better lit and passes by police chowki.",
+      recommended_route: "Take the main road via Western Express Highway — better lit with regular police patrolling.",
       nearest_help: [
         {"name":"Bandra Police Station","distance_km":1.2,"phone":"+91-22-26422222"}
       ]
     };
   }
   
+  // Check for office/business district routes
+  if (origin.toLowerCase().includes('office') || destination.toLowerCase().includes('office') || 
+      origin.toLowerCase().includes('lower parel') || destination.toLowerCase().includes('bkc')) {
+    return {
+      risk_score: 25,
+      short_reason: "Safe business district route with good security coverage.",
+      detailed_reason: [
+        "Well-lit commercial area with regular security patrols",
+        "High foot traffic during business hours",
+        "Multiple CCTV cameras and emergency call points"
+      ],
+      recommended_route: "Current route through business district is optimal and safe.",
+      nearest_help: [
+        {"name":"BKC Police Station","distance_km":0.5,"phone":"+91-22-26572000"}
+      ]
+    };
+  }
+  
   return {
     risk_score: 45,
-    short_reason: "Moderate traffic with good visibility during daytime hours.",
+    short_reason: "Standard city route with moderate traffic and good visibility.",
     detailed_reason: [
       "Regular daytime traffic provides natural surveillance",
-      "Well-maintained roads with adequate lighting",
-      "Multiple alternative routes available"
+      "Well-maintained main roads with adequate lighting",
+      "Multiple alternative routes available if needed"
     ],
-    recommended_route: "Current route is suitable for daytime travel. Consider main roads for evening travel.",
+    recommended_route: "Stick to main roads and avoid narrow lanes. Current route is suitable for travel.",
     nearest_help: [
-      {"name":"Local Police Chowki","distance_km":0.8,"phone":"+91-100"}
+      {"name":"Local Police Station","distance_km":0.8,"phone":"+91-100"}
     ]
   };
 }

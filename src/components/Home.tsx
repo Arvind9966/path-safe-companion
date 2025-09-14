@@ -187,8 +187,8 @@ const Home = ({ onSubmit }: HomeProps) => {
                 size="sm"
                 onClick={() => {
                   setFormData({
-                    from: 'College Campus, Bandra',
-                    to: 'Home, Andheri West',
+                    from: 'Mumbai University, Kalina',
+                    to: 'Bandra West Station',
                     time: '11:35 PM'
                   });
                 }}
@@ -202,8 +202,8 @@ const Home = ({ onSubmit }: HomeProps) => {
                 size="sm"
                 onClick={() => {
                   setFormData({
-                    from: 'School Bus Route',
-                    to: 'Pick-up Point',
+                    from: 'Dadar Station',
+                    to: 'Lower Parel Office',
                     time: '9:00 AM'
                   });
                 }}
