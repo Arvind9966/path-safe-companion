@@ -5,7 +5,7 @@ import { Badge } from './ui/badge';
 import { Phone, MessageSquare, Navigation, ArrowLeft, MapPin, Shield, CheckCircle } from 'lucide-react';
 import { SafetyAnalysis } from '@/data/mockData';
 import { useToast } from '@/hooks/use-toast';
-import SimpleMap from './SimpleMap';
+import GoogleMap from './GoogleMap';
 import RiskGauge3D from './RiskGauge3D';
 
 interface MapResultProps {
@@ -80,7 +80,7 @@ const MapResult = ({ analysis, onBack, onOpenChat, origin, destination }: MapRes
           </div>
           
           <div className="map-premium w-full h-full overflow-hidden">
-            <SimpleMap
+            <GoogleMap
               origin={origin}
               destination={destination}
               riskScore={currentRisk}

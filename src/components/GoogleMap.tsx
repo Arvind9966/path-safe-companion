@@ -291,127 +291,112 @@ const GoogleMap = ({
       destinationInfoWindow.open(map.current, destinationMarker);
     });
 
-    // Add route line with risk-based styling
+    // Use Google DirectionsService to draw road-following routes
     const routeColor = riskScore > 66 ? '#EF4444' : riskScore > 33 ? '#F59E0B' : '#10B981';
-    
-    const routePath = [
-      originCoords,
-      { lat: 19.0800, lng: 72.8450 }, // Mid point 1
-      { lat: 19.0950, lng: 72.8600 }, // Mid point 2
-      destinationCoords
-    ];
 
-    const routeLine = new google.maps.Polyline({
-      path: routePath,
-      geodesic: true,
-      strokeColor: routeColor,
-      strokeOpacity: showAlternateRoute ? 0.4 : 1.0, // Fade original route when alternate is shown
-      strokeWeight: 6,
-      map: map.current
-    });
+    const directionsService = new google.maps.DirectionsService();
 
-    // Add alternate (safer) route if requested
-    if (showAlternateRoute) {
-      const alternateRoutePath = [
-        originCoords,
-        { lat: 19.0650, lng: 72.8400 }, // Different mid point 1 (main road)
-        { lat: 19.0900, lng: 72.8500 }, // Different mid point 2 (highway route)
-        { lat: 19.1050, lng: 72.8650 }, // Different mid point 3 (well-lit area)
-        destinationCoords
-      ];
+    const request = {
+      origin: origin || originCoords,
+      destination: destination || destinationCoords,
+      travelMode: google.maps.TravelMode.DRIVING,
+      provideRouteAlternatives: showAlternateRoute,
+    };
 
-      const alternateRouteLine = new google.maps.Polyline({
-        path: alternateRoutePath,
-        geodesic: true,
-        strokeColor: '#10B981', // Always green for safer route
-        strokeOpacity: 1.0,
-        strokeWeight: 8, // Slightly thicker to show prominence
-        map: map.current,
-        strokePattern: [
-          { icon: { path: 'M 0,-1 0,1', strokeOpacity: 1, scale: 4 }, offset: '0', repeat: '20px' }
-        ] // Dashed pattern to distinguish from original
-      });
+    directionsService.route(request, (result: any, status: any) => {
+      if (status === 'OK' && result.routes.length) {
+        const primaryRoute = result.routes[0];
+        const primaryPath = primaryRoute.overview_path;
 
-      // Add safety indicators along the alternate route
-      const safetyPoints = [
-        { lat: 19.0650, lng: 72.8400, label: 'Well-lit Main Road' },
-        { lat: 19.0900, lng: 72.8500, label: 'CCTV Coverage' },
-        { lat: 19.1050, lng: 72.8650, label: 'Police Station Nearby' }
-      ];
-
-      safetyPoints.forEach(point => {
-        const safetyMarker = new google.maps.Marker({
-          position: point,
+        // Main route
+        new google.maps.Polyline({
+          path: primaryPath,
+          strokeColor: routeColor,
+          strokeOpacity: showAlternateRoute ? 0.4 : 1.0,
+          strokeWeight: 6,
           map: map.current,
-          icon: {
-            path: google.maps.SymbolPath.CIRCLE,
-            fillColor: '#10B981',
-            fillOpacity: 1,
-            strokeColor: '#FFFFFF',
-            strokeWeight: 2,
-            scale: 4,
-          }
         });
 
-        const safetyInfoWindow = new google.maps.InfoWindow({
-          content: `
-            <div class="p-2">
-              <h3 class="font-semibold text-sm text-green-600">✅ Safety Feature</h3>
-              <p class="text-xs text-gray-600">${point.label}</p>
-            </div>
-          `
-        });
+        // Alternate (safer) route
+        if (showAlternateRoute && result.routes[1]) {
+          const altPath = result.routes[1].overview_path;
+          const dashSymbol = { path: 'M 0,-1 0,1', strokeOpacity: 1, scale: 4 };
+          new google.maps.Polyline({
+            path: altPath,
+            strokeColor: '#10B981',
+            strokeOpacity: 0,
+            icons: [{ icon: dashSymbol, offset: '0', repeat: '20px' }],
+            strokeWeight: 8,
+            map: map.current,
+          });
 
-        safetyMarker.addListener('click', () => {
-          safetyInfoWindow.open(map.current, safetyMarker);
-        });
-      });
-    }
-
-    // Add risk indicators for high-risk areas
-    if (riskScore > 66) {
-      const riskPoint = { lat: 19.0800, lng: 72.8450 };
-      
-      const riskMarker = new google.maps.Marker({
-        position: riskPoint,
-        map: map.current,
-        icon: {
-          path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-          fillColor: '#EF4444',
-          fillOpacity: 1,
-          strokeColor: '#FFFFFF',
-          strokeWeight: 2,
-          scale: 6,
+          // Safety markers along the alternate route
+          const pts = [
+            altPath[Math.floor(altPath.length * 0.25)],
+            altPath[Math.floor(altPath.length * 0.5)],
+            altPath[Math.floor(altPath.length * 0.75)],
+          ].filter(Boolean);
+          pts.forEach((pt: any) => {
+            new google.maps.Marker({
+              position: pt,
+              map: map.current,
+              icon: {
+                path: google.maps.SymbolPath.CIRCLE,
+                fillColor: '#10B981',
+                fillOpacity: 1,
+                strokeColor: '#FFFFFF',
+                strokeWeight: 2,
+                scale: 4,
+              },
+            });
+          });
         }
-      });
 
-      const riskInfoWindow = new google.maps.InfoWindow({
-        content: `
-          <div class="p-2">
-            <h3 class="font-semibold text-sm text-red-600">⚠️ Risk Area</h3>
-            <p class="text-xs text-gray-600">Low lighting, reduced visibility</p>
-          </div>
-        `
-      });
+        // Risk indicator on main route
+        if (riskScore > 66 && primaryPath.length) {
+          const riskPt = primaryPath[Math.floor(primaryPath.length / 2)];
+          new google.maps.Marker({
+            position: riskPt,
+            map: map.current,
+            icon: {
+              path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+              fillColor: '#EF4444',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 2,
+              scale: 6,
+            },
+          });
+        }
 
-      riskMarker.addListener('click', () => {
-        riskInfoWindow.open(map.current, riskMarker);
-      });
-    }
-
-    // Fit map to show entire route
-    const bounds = new google.maps.LatLngBounds();
-    bounds.extend(originCoords);
-    bounds.extend(destinationCoords);
-    
-    map.current.fitBounds(bounds);
-    
-    // Adjust zoom to not be too close
-    const listener = google.maps.event.addListener(map.current, 'idle', () => {
-      if (map.current!.getZoom()! > 15) {
-        map.current!.setZoom(15);
+        // Fit map to the route
+        const bounds = primaryRoute.bounds || new google.maps.LatLngBounds();
+        if (!primaryRoute.bounds) {
+          primaryPath.forEach((p: any) => bounds.extend(p));
+        }
+        map.current.fitBounds(bounds);
+        const listener = google.maps.event.addListener(map.current, 'idle', () => {
+          if (map.current!.getZoom()! > 16) {
+            map.current!.setZoom(16);
+          }
+          google.maps.event.removeListener(listener);
+        });
+      } else {
+        console.warn('Directions request failed:', status);
+        // Fallback: simple polyline between points
+        const fallbackPath = [originCoords, destinationCoords];
+        new google.maps.Polyline({
+          path: fallbackPath,
+          strokeColor: routeColor,
+          strokeOpacity: 1.0,
+          strokeWeight: 6,
+          map: map.current,
+        });
+        const bounds = new google.maps.LatLngBounds();
+        bounds.extend(originCoords);
+        bounds.extend(destinationCoords);
+        map.current.fitBounds(bounds);
       }
-      google.maps.event.removeListener(listener);
     });
   };
 
