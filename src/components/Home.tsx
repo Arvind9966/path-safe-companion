@@ -7,7 +7,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { MapPin, Clock, Navigation, Shield, Zap, Eye, Sparkles } from 'lucide-react';
 import { ScenarioKey } from '@/data/mockData';
 import heroImage from '@/assets/hero-safety-app.jpg';
-
 interface HomeProps {
   onSubmit: (data: {
     from: string;
@@ -16,14 +15,16 @@ interface HomeProps {
     preset?: ScenarioKey;
   }) => void;
 }
-
-const Home = ({ onSubmit }: HomeProps) => {
-  const { t } = useLanguage();
+const Home = ({
+  onSubmit
+}: HomeProps) => {
+  const {
+    t
+  } = useLanguage();
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
   const [time, setTime] = useState('Now');
   const [selectedPreset, setSelectedPreset] = useState<string>('');
-  
   const handlePresetChange = (preset: string) => {
     setSelectedPreset(preset);
     if (preset === 'college') {
@@ -36,37 +37,32 @@ const Home = ({ onSubmit }: HomeProps) => {
       setTime('9:00 AM');
     }
   };
-  
   const handleSubmit = () => {
     if (!from || !to) {
       alert(t('error.enter_addresses'));
       return;
     }
-    
-    const presetKey = selectedPreset === 'college' ? 'scenario_college_night' : 
-                     selectedPreset === 'bus' ? 'scenario_bus_deviate' : undefined;
-    
-    onSubmit({ from, to, time, preset: presetKey as ScenarioKey });
+    const presetKey = selectedPreset === 'college' ? 'scenario_college_night' : selectedPreset === 'bus' ? 'scenario_bus_deviate' : undefined;
+    onSubmit({
+      from,
+      to,
+      time,
+      preset: presetKey as ScenarioKey
+    });
   };
-  
   const handleUseLocation = () => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setFrom(`Current Location (${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)})`);
-        },
-        () => {
-          alert(t('error.location_denied'));
-        }
-      );
+      navigator.geolocation.getCurrentPosition(position => {
+        setFrom(`Current Location (${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)})`);
+      }, () => {
+        alert(t('error.location_denied'));
+      });
     }
   };
-  
-  return (
-    <div className="min-h-screen bg-gradient-premium">
+  return <div className="min-h-screen bg-gradient-premium">
       {/* Hero Section */}
       <div className="max-w-4xl mx-auto mb-12 px-8">
-        <div className="bg-white/10 border border-white/20 rounded-3xl p-12 text-center backdrop-blur-xl">
+        <div className="bg-white/10 border border-white/20 rounded-3xl p-12 text-center backdrop-blur-xl py-[48px] px-[48px] my-[25px]">
           <h1 className="text-7xl font-semibold title-premium mb-6 tracking-tight">
             GuardianAI
           </h1>
@@ -107,18 +103,8 @@ const Home = ({ onSubmit }: HomeProps) => {
                 <div className="absolute left-6 top-6 z-10">
                   <MapPin className="h-6 w-6 text-sapphire" />
                 </div>
-                <Input
-                  placeholder={t('home.from.placeholder')}
-                  value={from}
-                  onChange={(e) => setFrom(e.target.value)}
-                  className="pl-16 pr-40 h-16 glass-premium border-sapphire text-platinum placeholder:text-silver bg-transparent backdrop-blur-xl text-lg"
-                />
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleUseLocation}
-                  className="absolute right-3 top-3 h-10 px-6 glass-premium border-emerald text-platinum hover-float backdrop-blur-xl"
-                >
+                <Input placeholder={t('home.from.placeholder')} value={from} onChange={e => setFrom(e.target.value)} className="pl-16 pr-40 h-16 glass-premium border-sapphire text-platinum placeholder:text-silver bg-transparent backdrop-blur-xl text-lg" />
+                <Button variant="outline" size="sm" onClick={handleUseLocation} className="absolute right-3 top-3 h-10 px-6 glass-premium border-emerald text-platinum hover-float backdrop-blur-xl">
                   <Navigation className="h-4 w-4 mr-2" />
                   {t('home.use_location')}
                 </Button>
@@ -128,24 +114,14 @@ const Home = ({ onSubmit }: HomeProps) => {
                 <div className="absolute left-6 top-6 z-10">
                   <MapPin className="h-6 w-6 text-emerald" />
                 </div>
-                <Input
-                  placeholder={t('home.to.placeholder')}
-                  value={to}
-                  onChange={(e) => setTo(e.target.value)}
-                  className="pl-16 h-16 glass-premium border-emerald text-platinum placeholder:text-silver bg-transparent backdrop-blur-xl text-lg"
-                />
+                <Input placeholder={t('home.to.placeholder')} value={to} onChange={e => setTo(e.target.value)} className="pl-16 h-16 glass-premium border-emerald text-platinum placeholder:text-silver bg-transparent backdrop-blur-xl text-lg" />
               </div>
               
               <div className="relative">
                 <div className="absolute left-6 top-6 z-10">
                   <Clock className="h-6 w-6 text-amber" />
                 </div>
-                <Input
-                  placeholder={t('home.time.now')}
-                  value={time}
-                  onChange={(e) => setTime(e.target.value)}
-                  className="pl-16 h-16 glass-premium border-premium text-platinum placeholder:text-silver bg-transparent backdrop-blur-xl text-lg"
-                />
+                <Input placeholder={t('home.time.now')} value={time} onChange={e => setTime(e.target.value)} className="pl-16 h-16 glass-premium border-premium text-platinum placeholder:text-silver bg-transparent backdrop-blur-xl text-lg" />
               </div>
             </div>
             
@@ -164,11 +140,7 @@ const Home = ({ onSubmit }: HomeProps) => {
               </Select>
             </div>
             
-            <Button
-              onClick={handleSubmit}
-              className="w-full text-xl py-10 btn-sapphire font-semibold tracking-wide"
-              size="lg"
-            >
+            <Button onClick={handleSubmit} className="w-full text-xl py-10 btn-sapphire font-semibold tracking-wide" size="lg">
               <Shield className="w-8 h-8 mr-4" />
               {t('home.check_safety')}
             </Button>
@@ -200,8 +172,6 @@ const Home = ({ onSubmit }: HomeProps) => {
           </CardContent>
         </Card>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Home;
