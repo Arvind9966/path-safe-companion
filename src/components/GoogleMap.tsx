@@ -86,10 +86,11 @@ const GoogleMap = ({
 
   // Initialize Google Maps
   useEffect(() => {
-    if (!mapContainer.current || !googleMapsApiKey) {
-      console.log('Map container or API key not ready:', { 
-        hasContainer: !!mapContainer.current, 
-        hasApiKey: !!googleMapsApiKey 
+    if (!mapContainer.current || !googleMapsApiKey || useLeafletFallback) {
+      console.log('Map init skipped:', {
+        hasContainer: !!mapContainer.current,
+        hasApiKey: !!googleMapsApiKey,
+        usingLeafletFallback: useLeafletFallback,
       });
       return;
     }
@@ -146,12 +147,23 @@ const GoogleMap = ({
     };
 
     initMap();
-  }, [googleMapsApiKey, origin, destination, riskScore, showAlternateRoute]);
+  }, [googleMapsApiKey, origin, destination, riskScore, showAlternateRoute, useLeafletFallback]);
 
   // Initialize Leaflet fallback if needed
   useEffect(() => {
     if (!useLeafletFallback || !mapContainer.current) return;
     try {
+      // Tear down any existing map instance before initializing Leaflet
+      if (map.current && typeof map.current.remove === 'function') {
+        map.current.off?.();
+        map.current.remove();
+        map.current = null;
+      }
+      // Reset Leaflet container id if previously initialized
+      if ((mapContainer.current as any)._leaflet_id) {
+        try { delete (mapContainer.current as any)._leaflet_id; } catch {}
+      }
+
       // Clear existing contents
       mapContainer.current.innerHTML = '';
       const originCoords: [number, number] = [19.0596, 72.8297];
