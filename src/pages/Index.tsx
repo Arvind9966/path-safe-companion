@@ -15,19 +15,58 @@ const Index = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isEmergencyOpen, setIsEmergencyOpen] = useState(false);
   
-  const handleRouteSubmit = (data: {
+  const handleRouteSubmit = async (data: {
     from: string;
     to: string;
     time: string;
     preset?: ScenarioKey;
   }) => {
-    // Use preset scenario if available, otherwise default to college scenario
-    const analysis = data.preset 
-      ? mockScenarios[data.preset]
-      : mockScenarios.scenario_college_night;
-    
-    setCurrentAnalysis(analysis);
-    setAppState('results');
+    try {
+      // Call the backend analyze-route function
+      const response = await fetch('https://pdirlmmavkzmqbybfdjj.supabase.co/functions/v1/analyze-route', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBkaXJsbW1hdmt6bXFieWJmZGpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc4Mzk1MjAsImV4cCI6MjA3MzQxNTUyMH0.B4VyQxP97uUUm-2mdNZmPn3kxv8UA4rraOJAhENQ6N8`,
+        },
+        body: JSON.stringify({
+          origin: data.from,
+          destination: data.to,
+          time: data.time !== 'Now' ? `2024-01-01 ${data.time}` : new Date().toISOString(),
+          city: 'Mumbai', // Default city, could be made configurable
+          userId: null // Will be set when auth is implemented
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to analyze route');
+      }
+
+      const result = await response.json();
+      
+      // Convert backend response to match the expected SafetyAnalysis format
+      const analysis: SafetyAnalysis = {
+        risk_score: result.risk_score,
+        short_reason: result.short_reason,
+        detailed_reason: result.detailed_reason,
+        recommended_route: result.recommended_route,
+        nearest_help: result.nearest_help,
+        chat_lines: result.chat_lines
+      };
+      
+      setCurrentAnalysis(analysis);
+      setAppState('results');
+    } catch (error) {
+      console.error('Error analyzing route:', error);
+      
+      // Fallback to mock data
+      const analysis = data.preset 
+        ? mockScenarios[data.preset]
+        : mockScenarios.scenario_college_night;
+      
+      setCurrentAnalysis(analysis);
+      setAppState('results');
+    }
   };
   
   const handleBack = () => {

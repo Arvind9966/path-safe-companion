@@ -164,6 +164,11 @@ const Home = ({ onSubmit }: HomeProps) => {
               <li>• {t('about.predict')}</li>
               <li>• {t('about.scalable')}</li>
             </ul>
+            <div className="mt-4 p-3 bg-muted rounded-lg">
+              <p className="text-xs text-muted-foreground">
+                🔧 <strong>API Integration:</strong> GuardianAI is configured with Google Maps API for live route analysis and Places API for emergency services. Mock data is used as fallback when APIs are unavailable.
+              </p>
+            </div>
           </CardContent>
         </Card>
       </div>

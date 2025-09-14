@@ -1,1 +1,7 @@
 project_id = "pdirlmmavkzmqbybfdjj"
+
+[functions.analyze-route]
+verify_jwt = false
+
+[functions.get-emergency-services]
+verify_jwt = false

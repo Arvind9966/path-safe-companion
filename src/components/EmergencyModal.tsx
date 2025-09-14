@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from './ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
@@ -18,9 +18,50 @@ const EmergencyModal = ({ isOpen, onClose, analysis }: EmergencyModalProps) => {
   const { t } = useLanguage();
   const { toast } = useToast();
   const [autoShare, setAutoShare] = useState(true);
+  const [emergencyServices, setEmergencyServices] = useState(analysis.nearest_help);
   const [smsMessage, setSmsMessage] = useState(
     `Emergency Alert: I need assistance. My current location is being shared. Please contact me immediately. - Sent via GuardianAI`
   );
+  
+  // Fetch emergency services when modal opens
+  useEffect(() => {
+    const fetchEmergencyServices = async () => {
+      if (!isOpen) return;
+      
+      try {
+        const response = await fetch('https://pdirlmmavkzmqbybfdjj.supabase.co/functions/v1/get-emergency-services', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBkaXJsbW1hdmt6bXFieWJmZGpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc4Mzk1MjAsImV4cCI6MjA3MzQxNTUyMH0.B4VyQxP97uUUm-2mdNZmPn3kxv8UA4rraOJAhENQ6N8`,
+          },
+          body: JSON.stringify({
+            lat: null, // Will be populated when we have location data
+            lng: null,
+            city: 'Mumbai',
+            contactType: 'police'
+          }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.services && data.services.length > 0) {
+            const services = data.services.slice(0, 3).map((service: any) => ({
+              name: service.name,
+              distance_km: service.distance_km,
+              phone: service.phone_number
+            }));
+            setEmergencyServices(services);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching emergency services:', error);
+        // Keep using the analysis data as fallback
+      }
+    };
+
+    fetchEmergencyServices();
+  }, [isOpen]);
   
   const handleCallPolice = () => {
     toast({
@@ -91,7 +132,7 @@ const EmergencyModal = ({ isOpen, onClose, analysis }: EmergencyModalProps) => {
           <div className="space-y-2">
             <h4 className="font-medium text-sm">{t('result.nearest_help')}</h4>
             <div className="space-y-2 max-h-32 overflow-y-auto">
-              {analysis.nearest_help.map((help, index) => (
+              {emergencyServices.map((help, index) => (
                 <div key={index} className="flex items-center justify-between p-2 bg-muted rounded-lg">
                   <div className="flex-1">
                     <p className="text-sm font-medium">{help.name}</p>
