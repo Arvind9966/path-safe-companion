@@ -6,7 +6,7 @@ import { Badge } from './ui/badge';
 import { Phone, MessageSquare, Navigation, ArrowLeft } from 'lucide-react';
 import { SafetyAnalysis } from '@/data/mockData';
 import { useToast } from '@/hooks/use-toast';
-import GoogleMap from './GoogleMap';
+import SimpleMap from './SimpleMap';
 
 interface MapResultProps {
   analysis: SafetyAnalysis;
@@ -72,7 +72,7 @@ const MapResult = ({ analysis, onBack, onOpenChat, origin, destination }: MapRes
       <div className="flex flex-col lg:flex-row h-[calc(100vh-100px)]">
         {/* Map Section */}
         <div className="flex-1 relative bg-muted rounded-lg mx-4 mb-4 lg:mb-0 lg:mr-2">
-          <GoogleMap
+          <SimpleMap
             origin={origin}
             destination={destination}
             riskScore={currentRisk}
@@ -81,7 +81,7 @@ const MapResult = ({ analysis, onBack, onOpenChat, origin, destination }: MapRes
           />
           {showAlternateRoute && (
             <div className="absolute top-4 right-4 z-10">
-              <Badge className="bg-risk-low text-white shadow-lg">
+              <Badge className="bg-green-600 text-white shadow-lg">
                 ✓ Safer Route Active
               </Badge>
             </div>
