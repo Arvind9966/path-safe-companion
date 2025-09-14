@@ -230,66 +230,11 @@ const GoogleMap = ({
   const addMarkersAndRoute = (google: any) => {
     if (!map.current) return;
 
-    // Sample coordinates for Mumbai area (Bandra to Andheri)
+    // Default fallback coordinates (Mumbai area) used only if geocoding fails
     const originCoords = { lat: 19.0596, lng: 72.8297 }; // Bandra
     const destinationCoords = { lat: 19.1136, lng: 72.8697 }; // Andheri
 
-    // Add origin marker
-    const originMarker = new google.maps.Marker({
-      position: originCoords,
-      map: map.current,
-      title: origin || 'Starting Point',
-      icon: {
-        path: google.maps.SymbolPath.CIRCLE,
-        fillColor: '#3B82F6',
-        fillOpacity: 1,
-        strokeColor: '#FFFFFF',
-        strokeWeight: 3,
-        scale: 8,
-      }
-    });
-
-    // Add destination marker
-    const destinationMarker = new google.maps.Marker({
-      position: destinationCoords,
-      map: map.current,
-      title: destination || 'Destination',
-      icon: {
-        path: google.maps.SymbolPath.CIRCLE,
-        fillColor: '#10B981',
-        fillOpacity: 1,
-        strokeColor: '#FFFFFF',
-        strokeWeight: 3,
-        scale: 8,
-      }
-    });
-
-    // Add info windows
-    const originInfoWindow = new google.maps.InfoWindow({
-      content: `
-        <div class="p-2">
-          <h3 class="font-semibold text-sm">Origin</h3>
-          <p class="text-xs text-gray-600">${origin || 'Starting Point'}</p>
-        </div>
-      `
-    });
-
-    const destinationInfoWindow = new google.maps.InfoWindow({
-      content: `
-        <div class="p-2">
-          <h3 class="font-semibold text-sm">Destination</h3>
-          <p class="text-xs text-gray-600">${destination || 'End Point'}</p>
-        </div>
-      `
-    });
-
-    originMarker.addListener('click', () => {
-      originInfoWindow.open(map.current, originMarker);
-    });
-
-    destinationMarker.addListener('click', () => {
-      destinationInfoWindow.open(map.current, destinationMarker);
-    });
+    // Markers are created after DirectionsService returns so they match the road route exactly
 
     // Use Google DirectionsService to draw road-following routes
     const routeColor = riskScore > 66 ? '#EF4444' : riskScore > 33 ? '#F59E0B' : '#10B981';
@@ -307,6 +252,46 @@ const GoogleMap = ({
       if (status === 'OK' && result.routes.length) {
         const primaryRoute = result.routes[0];
         const primaryPath = primaryRoute.overview_path;
+        const leg = primaryRoute.legs && primaryRoute.legs[0];
+
+        // Create accurate start/end markers from the routed leg
+        if (leg) {
+          const startMarker = new google.maps.Marker({
+            position: leg.start_location,
+            map: map.current,
+            title: leg.start_address || (origin || 'Starting Point'),
+            icon: {
+              path: google.maps.SymbolPath.CIRCLE,
+              fillColor: '#3B82F6',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 3,
+              scale: 8,
+            },
+          });
+          const endMarker = new google.maps.Marker({
+            position: leg.end_location,
+            map: map.current,
+            title: leg.end_address || (destination || 'Destination'),
+            icon: {
+              path: google.maps.SymbolPath.CIRCLE,
+              fillColor: '#10B981',
+              fillOpacity: 1,
+              strokeColor: '#FFFFFF',
+              strokeWeight: 3,
+              scale: 8,
+            },
+          });
+
+          const originInfoWindow = new google.maps.InfoWindow({
+            content: `<div class="p-2"><h3 class="font-semibold text-sm">Origin</h3><p class="text-xs text-gray-600">${startMarker.getTitle()}</p></div>`
+          });
+          const destinationInfoWindow = new google.maps.InfoWindow({
+            content: `<div class="p-2"><h3 class="font-semibold text-sm">Destination</h3><p class="text-xs text-gray-600">${endMarker.getTitle()}</p></div>`
+          });
+          startMarker.addListener('click', () => originInfoWindow.open(map.current, startMarker));
+          endMarker.addListener('click', () => destinationInfoWindow.open(map.current, endMarker));
+        }
 
         // Main route
         new google.maps.Polyline({
