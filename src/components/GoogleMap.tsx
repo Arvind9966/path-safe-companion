@@ -15,6 +15,7 @@ interface GoogleMapProps {
   destination?: string;
   routeData?: any;
   riskScore?: number;
+  showAlternateRoute?: boolean;
   className?: string;
 }
 
@@ -23,6 +24,7 @@ const GoogleMap = ({
   destination, 
   routeData, 
   riskScore = 50,
+  showAlternateRoute = false,
   className = "w-full h-96" 
 }: GoogleMapProps) => {
   const mapContainer = useRef<HTMLDivElement>(null);
@@ -144,7 +146,7 @@ const GoogleMap = ({
     };
 
     initMap();
-  }, [googleMapsApiKey, origin, destination, riskScore]);
+  }, [googleMapsApiKey, origin, destination, riskScore, showAlternateRoute]);
 
   // Initialize Leaflet fallback if needed
   useEffect(() => {
@@ -167,7 +169,7 @@ const GoogleMap = ({
       L.circleMarker(destinationCoords, { radius: 8, color: '#10B981', fillColor: '#10B981', fillOpacity: 1 }).addTo(map.current)
         .bindPopup(`<b>Destination</b><br/>${destination || 'End Point'}`);
       
-      // Route line
+      // Route line for Leaflet
       const routeLatLngs: [number, number][] = [
         originCoords,
         [19.0800, 72.8450],
@@ -175,7 +177,46 @@ const GoogleMap = ({
         destinationCoords
       ];
       const routeColor = riskScore > 66 ? '#EF4444' : riskScore > 33 ? '#F59E0B' : '#10B981';
-      L.polyline(routeLatLngs, { color: routeColor, weight: 6, opacity: 0.9 }).addTo(map.current);
+      L.polyline(routeLatLngs, { 
+        color: routeColor, 
+        weight: 6, 
+        opacity: showAlternateRoute ? 0.4 : 0.9 
+      }).addTo(map.current);
+
+      // Add alternate route for Leaflet if requested
+      if (showAlternateRoute) {
+        const alternateRouteLatLngs: [number, number][] = [
+          originCoords,
+          [19.0650, 72.8400], // Different path via main road
+          [19.0900, 72.8500], // Highway route
+          [19.1050, 72.8650], // Well-lit area
+          destinationCoords
+        ];
+        
+        L.polyline(alternateRouteLatLngs, { 
+          color: '#10B981', 
+          weight: 8, 
+          opacity: 1.0,
+          dashArray: '10, 10' // Dashed line to distinguish
+        }).addTo(map.current);
+
+        // Add safety markers
+        const safetyPoints: Array<[number, number, string]> = [
+          [19.0650, 72.8400, 'Well-lit Main Road'],
+          [19.0900, 72.8500, 'CCTV Coverage'],
+          [19.1050, 72.8650, 'Police Station Nearby']
+        ];
+
+        safetyPoints.forEach(([lat, lng, label]) => {
+          L.circleMarker([lat, lng], { 
+            radius: 4, 
+            color: '#10B981', 
+            fillColor: '#10B981', 
+            fillOpacity: 1 
+          }).addTo(map.current)
+            .bindPopup(`<b>✅ Safety Feature</b><br/>${label}`);
+        });
+      }
 
       // Fit bounds
       const bounds = L.latLngBounds(routeLatLngs);
@@ -184,7 +225,7 @@ const GoogleMap = ({
       console.error('Leaflet fallback failed:', e);
       setError('Map failed to load');
     }
-  }, [useLeafletFallback, origin, destination, riskScore]);
+  }, [useLeafletFallback, origin, destination, riskScore, showAlternateRoute]);
 
   const addMarkersAndRoute = (google: any) => {
     if (!map.current) return;
@@ -264,10 +305,68 @@ const GoogleMap = ({
       path: routePath,
       geodesic: true,
       strokeColor: routeColor,
-      strokeOpacity: 1.0,
+      strokeOpacity: showAlternateRoute ? 0.4 : 1.0, // Fade original route when alternate is shown
       strokeWeight: 6,
       map: map.current
     });
+
+    // Add alternate (safer) route if requested
+    if (showAlternateRoute) {
+      const alternateRoutePath = [
+        originCoords,
+        { lat: 19.0650, lng: 72.8400 }, // Different mid point 1 (main road)
+        { lat: 19.0900, lng: 72.8500 }, // Different mid point 2 (highway route)
+        { lat: 19.1050, lng: 72.8650 }, // Different mid point 3 (well-lit area)
+        destinationCoords
+      ];
+
+      const alternateRouteLine = new google.maps.Polyline({
+        path: alternateRoutePath,
+        geodesic: true,
+        strokeColor: '#10B981', // Always green for safer route
+        strokeOpacity: 1.0,
+        strokeWeight: 8, // Slightly thicker to show prominence
+        map: map.current,
+        strokePattern: [
+          { icon: { path: 'M 0,-1 0,1', strokeOpacity: 1, scale: 4 }, offset: '0', repeat: '20px' }
+        ] // Dashed pattern to distinguish from original
+      });
+
+      // Add safety indicators along the alternate route
+      const safetyPoints = [
+        { lat: 19.0650, lng: 72.8400, label: 'Well-lit Main Road' },
+        { lat: 19.0900, lng: 72.8500, label: 'CCTV Coverage' },
+        { lat: 19.1050, lng: 72.8650, label: 'Police Station Nearby' }
+      ];
+
+      safetyPoints.forEach(point => {
+        const safetyMarker = new google.maps.Marker({
+          position: point,
+          map: map.current,
+          icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            fillColor: '#10B981',
+            fillOpacity: 1,
+            strokeColor: '#FFFFFF',
+            strokeWeight: 2,
+            scale: 4,
+          }
+        });
+
+        const safetyInfoWindow = new google.maps.InfoWindow({
+          content: `
+            <div class="p-2">
+              <h3 class="font-semibold text-sm text-green-600">✅ Safety Feature</h3>
+              <p class="text-xs text-gray-600">${point.label}</p>
+            </div>
+          `
+        });
+
+        safetyMarker.addListener('click', () => {
+          safetyInfoWindow.open(map.current, safetyMarker);
+        });
+      });
+    }
 
     // Add risk indicators for high-risk areas
     if (riskScore > 66) {
@@ -375,7 +474,13 @@ const GoogleMap = ({
             <div className="w-2 h-2 bg-green-500 rounded-full"></div>
             <span>End</span>
           </div>
-          {riskScore > 66 && (
+          {showAlternateRoute && (
+            <div className="flex items-center space-x-1">
+              <div className="w-2 h-2 bg-green-500 rounded-full border border-green-700" style={{ borderStyle: 'dashed' }}></div>
+              <span className="text-green-600 font-medium">Safer Route</span>
+            </div>
+          )}
+          {riskScore > 66 && !showAlternateRoute && (
             <div className="flex items-center space-x-1">
               <Zap className="w-3 h-3 text-red-500" />
               <span className="text-red-600">High Risk</span>
@@ -390,6 +495,11 @@ const GoogleMap = ({
           Risk Level: <span className={`${riskScore > 66 ? 'text-red-600' : riskScore > 33 ? 'text-yellow-600' : 'text-green-600'}`}>
             {riskScore > 66 ? 'High' : riskScore > 33 ? 'Medium' : 'Low'}
           </span>
+          {showAlternateRoute && (
+            <div className="mt-1 text-green-600 font-medium">
+              ✅ Safer Route Active
+            </div>
+          )}
         </div>
       </div>
     </div>

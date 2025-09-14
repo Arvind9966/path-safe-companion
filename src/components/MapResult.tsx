@@ -76,6 +76,7 @@ const MapResult = ({ analysis, onBack, onOpenChat, origin, destination }: MapRes
             origin={origin}
             destination={destination}
             riskScore={currentRisk}
+            showAlternateRoute={showAlternateRoute}
             className="w-full h-full"
           />
           {showAlternateRoute && (
