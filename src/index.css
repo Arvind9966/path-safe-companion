@@ -229,8 +229,9 @@ All colors MUST be HSL.
 
   /* Map Container */
   .map-3d {
-    @apply transform perspective-1000;
-    transform: rotateX(5deg) rotateY(-5deg);
+    @apply transform;
+    transform: perspective(1000px) rotateX(5deg) rotateY(-5deg);
+    transform-style: preserve-3d;
     box-shadow: var(--shadow-cyber);
   }
 }
