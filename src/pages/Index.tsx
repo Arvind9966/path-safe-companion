@@ -1,13 +1,16 @@
 import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 import Header from '@/components/Header';
 import Home from '@/components/Home';
 import MapResult from '@/components/MapResult';
 import ChatPanel from '@/components/ChatPanel';
 import EmergencyModal from '@/components/EmergencyModal';
+import EmergencyContactsManager from '@/components/EmergencyContactsManager';
 import SOSButton from '@/components/SOSButton';
 import { mockScenarios, SafetyAnalysis, ScenarioKey } from '@/data/mockData';
 
-type AppState = 'home' | 'results';
+type AppState = 'home' | 'results' | 'contacts';
 
 interface RouteData {
   from: string;
@@ -16,11 +19,26 @@ interface RouteData {
 }
 
 const Index = () => {
+  const { user, loading } = useAuth();
   const [appState, setAppState] = useState<AppState>('home');
   const [currentAnalysis, setCurrentAnalysis] = useState<SafetyAnalysis | null>(null);
   const [routeData, setRouteData] = useState<RouteData | null>(null);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isEmergencyOpen, setIsEmergencyOpen] = useState(false);
+
+  // Redirect to auth if not logged in
+  if (!loading && !user) {
+    return <Navigate to="/auth" replace />;
+  }
+
+  // Show loading while checking auth
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-charcoal to-onyx flex items-center justify-center">
+        <div className="text-platinum">Loading...</div>
+      </div>
+    );
+  }
   
   const handleRouteSubmit = async (data: {
     from: string;
@@ -48,7 +66,7 @@ const Index = () => {
           destination: data.to,
           time: data.time !== 'Now' ? `2024-01-01 ${data.time}` : new Date().toISOString(),
           city: 'Mumbai', // Default city, could be made configurable
-          userId: null // Will be set when auth is implemented
+          userId: user?.id
         }),
       });
 
@@ -95,6 +113,10 @@ const Index = () => {
     setIsChatOpen(false);
     setRouteData(null);
   };
+
+  const handleShowContacts = () => {
+    setAppState('contacts');
+  };
   
   const handleOpenChat = () => {
     setIsChatOpen(true);
@@ -114,10 +136,22 @@ const Index = () => {
   
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header onShowContacts={handleShowContacts} />
       
       {appState === 'home' && (
         <Home onSubmit={handleRouteSubmit} />
+      )}
+
+      {appState === 'contacts' && (
+        <div className="container mx-auto px-4 py-8">
+          <button
+            onClick={handleBack}
+            className="mb-6 text-sapphire hover:text-sapphire-light transition-colors"
+          >
+            ← Back to Home
+          </button>
+          <EmergencyContactsManager />
+        </div>
       )}
       
       {appState === 'results' && currentAnalysis && routeData && (
