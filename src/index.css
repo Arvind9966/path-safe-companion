@@ -8,58 +8,69 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Futuristic Cyberpunk Design System */
+    --background: 218 100% 12%; /* Deep Space Navy #0F172A */
+    --foreground: 210 40% 95%; /* Light text #F1F5F9 */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 240 10% 15% / 0.8; /* Glassmorphism base */
+    --card-foreground: 210 40% 95%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 240 10% 15% / 0.9;
+    --popover-foreground: 210 40% 95%;
 
-    --primary: 231 48% 48%;
+    --primary: 198 93% 60%; /* Cyan #06B6D4 */
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 262 83% 58%; /* Purple #7C3AED */
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 215 28% 17% / 0.6;
+    --muted-foreground: 215 20.2% 65.1%; /* #94A3B8 */
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 198 93% 60%; /* Cyan */
+    --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 72% 51%; /* Red #DC2626 */
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 231 48% 48%;
+    --border: 198 93% 60% / 0.3; /* Cyan glow border */
+    --input: 240 10% 15% / 0.8;
+    --ring: 198 93% 60%;
 
-    /* GuardianAI Custom Design System */
-    --guardian-indigo: 231 48% 48%;
-    --guardian-indigo-light: 231 48% 88%;
-    --guardian-indigo-dark: 231 48% 25%;
+    /* Cyberpunk Color Palette */
+    --cyber-navy: 218 100% 12%; /* Deep Space Navy #0F172A */
+    --cyber-purple: 240 67% 20%; /* Midnight Purple #1E1B4B */
+    --cyber-cyan: 198 93% 60%; /* Cyan #06B6D4 */
+    --cyber-purple-accent: 262 83% 58%; /* Purple #7C3AED */
+    --cyber-white: 210 40% 95%; /* White #F1F5F9 */
+    --cyber-gray: 215 20.2% 65.1%; /* Gray #94A3B8 */
     
-    --risk-low: 142 76% 36%;
-    --risk-low-bg: 142 76% 95%;
-    --risk-medium: 48 96% 53%;
-    --risk-medium-bg: 48 96% 95%;
-    --risk-high: 0 84% 60%;
-    --risk-high-bg: 0 84% 95%;
+    /* Risk Colors with Glow */
+    --risk-low: 142 71% 45%; /* Green #22C55E */
+    --risk-low-glow: 142 71% 45% / 0.3;
+    --risk-medium: 48 96% 53%; /* Amber #FACC15 */
+    --risk-medium-glow: 48 96% 53% / 0.3;
+    --risk-high: 0 72% 51%; /* Red #DC2626 */
+    --risk-high-glow: 0 72% 51% / 0.4;
     
-    --emergency: 0 84% 60%;
-    --emergency-hover: 0 84% 50%;
+    --emergency: 0 72% 51%; /* Red #DC2626 */
+    --emergency-glow: 0 72% 51% / 0.6;
     
-    --gradient-guardian: linear-gradient(135deg, hsl(var(--guardian-indigo)), hsl(var(--guardian-indigo-dark)));
-    --gradient-risk-low: linear-gradient(135deg, hsl(var(--risk-low)), hsl(142 76% 28%));
-    --gradient-risk-medium: linear-gradient(135deg, hsl(var(--risk-medium)), hsl(48 96% 45%));
-    --gradient-risk-high: linear-gradient(135deg, hsl(var(--risk-high)), hsl(0 84% 52%));
+    /* 3D Gradients */
+    --gradient-space: linear-gradient(135deg, hsl(var(--cyber-navy)), hsl(var(--cyber-purple)));
+    --gradient-cyber: linear-gradient(135deg, hsl(var(--cyber-cyan)), hsl(var(--cyber-purple-accent)));
+    --gradient-risk: conic-gradient(from 0deg, hsl(var(--risk-low)), hsl(var(--risk-medium)), hsl(var(--risk-high)));
+    --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
     
-    --shadow-guardian: 0 10px 30px -10px hsl(var(--guardian-indigo) / 0.3);
-    --shadow-emergency: 0 10px 30px -10px hsl(var(--emergency) / 0.4);
+    /* 3D Shadows & Glows */
+    --shadow-cyber: 0 20px 40px -10px hsl(var(--cyber-cyan) / 0.3), 0 0 20px hsl(var(--cyber-cyan) / 0.2);
+    --shadow-purple: 0 20px 40px -10px hsl(var(--cyber-purple-accent) / 0.3), 0 0 20px hsl(var(--cyber-purple-accent) / 0.2);
+    --shadow-emergency: 0 20px 40px -10px hsl(var(--emergency) / 0.4), 0 0 30px hsl(var(--emergency) / 0.3);
+    --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.37);
     
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* 3D Transforms & Transitions */
+    --transition-cyber: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-glow: box-shadow 0.3s ease, transform 0.3s ease;
 
     --radius: 0.5rem;
 
@@ -131,6 +142,114 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-gradient-space text-foreground;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+}
+
+/* Cyberpunk 3D Utility Classes */
+@layer components {
+  /* Glassmorphism Cards */
+  .glass-panel {
+    @apply backdrop-blur-xl bg-white/10 border border-primary/30 rounded-2xl;
+    box-shadow: var(--shadow-glass), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    background: var(--gradient-glass);
+  }
+
+  .glass-panel-cyber {
+    @apply glass-panel;
+    box-shadow: var(--shadow-cyber);
+    border-color: hsl(var(--cyber-cyan) / 0.5);
+  }
+
+  .glass-panel-purple {
+    @apply glass-panel;
+    box-shadow: var(--shadow-purple);
+    border-color: hsl(var(--cyber-purple-accent) / 0.5);
+  }
+
+  /* 3D Hover Effects */
+  .hover-3d {
+    @apply transition-all duration-300 hover:scale-105;
+    transform-style: preserve-3d;
+  }
+
+  .hover-3d:hover {
+    transform: translateY(-8px) rotateX(5deg) rotateY(5deg) scale(1.02);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  }
+
+  .hover-glow:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 0 30px currentColor;
+  }
+
+  /* Risk Gauge */
+  .risk-gauge {
+    @apply relative w-24 h-24 rounded-full flex items-center justify-center;
+    background: var(--gradient-risk);
+    box-shadow: 0 0 30px hsl(var(--risk-medium) / 0.5);
+    animation: pulse-glow 2s ease-in-out infinite alternate;
+  }
+
+  .risk-gauge::before {
+    content: '';
+    @apply absolute inset-2 rounded-full bg-background/90;
+  }
+
+  /* Pulsing Animations */
+  .pulse-emergency {
+    animation: pulse-emergency 2s ease-in-out infinite;
+  }
+
+  .pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite alternate;
+  }
+
+  /* Typography */
+  .cyber-title {
+    @apply text-cyber-white font-bold tracking-wider;
+    text-shadow: 0 0 10px hsl(var(--cyber-cyan) / 0.5);
+  }
+
+  .cyber-text {
+    @apply text-cyber-gray;
+  }
+
+  /* Neon Borders */
+  .border-cyber {
+    border: 1px solid hsl(var(--cyber-cyan) / 0.5);
+    box-shadow: 0 0 10px hsl(var(--cyber-cyan) / 0.3);
+  }
+
+  .border-purple {
+    border: 1px solid hsl(var(--cyber-purple-accent) / 0.5);
+    box-shadow: 0 0 10px hsl(var(--cyber-purple-accent) / 0.3);
+  }
+
+  /* Map Container */
+  .map-3d {
+    @apply transform perspective-1000;
+    transform: rotateX(5deg) rotateY(-5deg);
+    box-shadow: var(--shadow-cyber);
+  }
+}
+
+/* Keyframe Animations */
+@keyframes pulse-emergency {
+  0%, 100% {
+    box-shadow: 0 0 20px hsl(var(--emergency) / 0.8), 0 0 40px hsl(var(--emergency) / 0.4);
+  }
+  50% {
+    box-shadow: 0 0 30px hsl(var(--emergency) / 1), 0 0 60px hsl(var(--emergency) / 0.6);
+  }
+}
+
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 20px hsl(var(--cyber-cyan) / 0.5);
+  }
+  100% {
+    box-shadow: 0 0 30px hsl(var(--cyber-cyan) / 0.8), 0 0 50px hsl(var(--cyber-cyan) / 0.4);
   }
 }

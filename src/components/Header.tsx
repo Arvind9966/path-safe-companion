@@ -9,21 +9,24 @@ const Header = () => {
   };
   
   return (
-    <header className="flex items-center justify-between p-4 bg-gradient-guardian shadow-guardian">
-      <div className="flex items-center">
-        <h1 className="text-2xl font-bold text-primary-foreground">
-          {t('header.title')}
-        </h1>
+    <header className="glass-panel-cyber hover-3d p-6 m-4 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-cyber opacity-20"></div>
+      <div className="relative flex items-center justify-between">
+        <div className="flex items-center">
+          <h1 className="text-3xl font-bold cyber-title">
+            {t('header.title')}
+          </h1>
+        </div>
+        
+        <Button
+          onClick={toggleLanguage}
+          variant="outline"
+          size="sm"
+          className="glass-panel hover-glow border-cyber text-cyber-white font-medium backdrop-blur-sm"
+        >
+          {t('header.toggle')}
+        </Button>
       </div>
-      
-      <Button
-        onClick={toggleLanguage}
-        variant="secondary"
-        size="sm"
-        className="text-sm font-medium"
-      >
-        {t('header.toggle')}
-      </Button>
     </header>
   );
 };
