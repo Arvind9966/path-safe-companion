@@ -9,9 +9,16 @@ import { mockScenarios, SafetyAnalysis, ScenarioKey } from '@/data/mockData';
 
 type AppState = 'home' | 'results';
 
+interface RouteData {
+  from: string;
+  to: string;
+  time: string;
+}
+
 const Index = () => {
   const [appState, setAppState] = useState<AppState>('home');
   const [currentAnalysis, setCurrentAnalysis] = useState<SafetyAnalysis | null>(null);
+  const [routeData, setRouteData] = useState<RouteData | null>(null);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isEmergencyOpen, setIsEmergencyOpen] = useState(false);
   
@@ -22,6 +29,13 @@ const Index = () => {
     preset?: ScenarioKey;
   }) => {
     try {
+      // Store route data
+      setRouteData({
+        from: data.from,
+        to: data.to,
+        time: data.time
+      });
+
       // Call the backend analyze-route function
       const response = await fetch('https://pdirlmmavkzmqbybfdjj.supabase.co/functions/v1/analyze-route', {
         method: 'POST',
@@ -59,6 +73,13 @@ const Index = () => {
     } catch (error) {
       console.error('Error analyzing route:', error);
       
+      // Store route data even for fallback
+      setRouteData({
+        from: data.from,
+        to: data.to,
+        time: data.time
+      });
+      
       // Fallback to mock data
       const analysis = data.preset 
         ? mockScenarios[data.preset]
@@ -72,6 +93,7 @@ const Index = () => {
   const handleBack = () => {
     setAppState('home');
     setIsChatOpen(false);
+    setRouteData(null);
   };
   
   const handleOpenChat = () => {
@@ -98,13 +120,15 @@ const Index = () => {
         <Home onSubmit={handleRouteSubmit} />
       )}
       
-      {appState === 'results' && currentAnalysis && (
+      {appState === 'results' && currentAnalysis && routeData && (
         <div className="flex">
           <div className={`flex-1 ${isChatOpen ? 'lg:pr-96' : ''}`}>
             <MapResult
               analysis={currentAnalysis}
               onBack={handleBack}
               onOpenChat={handleOpenChat}
+              origin={routeData.from}
+              destination={routeData.to}
             />
           </div>
           

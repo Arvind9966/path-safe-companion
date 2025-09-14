@@ -6,14 +6,17 @@ import { Badge } from './ui/badge';
 import { Phone, MessageSquare, Navigation, ArrowLeft } from 'lucide-react';
 import { SafetyAnalysis } from '@/data/mockData';
 import { useToast } from '@/hooks/use-toast';
+import InteractiveMap from './InteractiveMap';
 
 interface MapResultProps {
   analysis: SafetyAnalysis;
   onBack: () => void;
   onOpenChat: () => void;
+  origin?: string;
+  destination?: string;
 }
 
-const MapResult = ({ analysis, onBack, onOpenChat }: MapResultProps) => {
+const MapResult = ({ analysis, onBack, onOpenChat, origin, destination }: MapResultProps) => {
   const { t } = useLanguage();
   const { toast } = useToast();
   const [currentRisk, setCurrentRisk] = useState(analysis.risk_score);
@@ -69,20 +72,19 @@ const MapResult = ({ analysis, onBack, onOpenChat }: MapResultProps) => {
       <div className="flex flex-col lg:flex-row h-[calc(100vh-100px)]">
         {/* Map Section */}
         <div className="flex-1 relative bg-muted rounded-lg mx-4 mb-4 lg:mb-0 lg:mr-2">
-          <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-guardian-light/20">
-            <div className="text-center">
-              <Navigation className="h-12 w-12 mx-auto mb-4 text-guardian" />
-              <h3 className="text-lg font-semibold text-guardian-dark">Interactive Map</h3>
-              <p className="text-sm text-muted-foreground mt-2">
-                Route visualization would appear here
-              </p>
-              {showAlternateRoute && (
-                <Badge className="mt-2 bg-risk-low text-white">
-                  Safer Route Active
-                </Badge>
-              )}
+          <InteractiveMap
+            origin={origin}
+            destination={destination}
+            riskScore={currentRisk}
+            className="w-full h-full"
+          />
+          {showAlternateRoute && (
+            <div className="absolute top-4 right-4 z-10">
+              <Badge className="bg-risk-low text-white shadow-lg">
+                ✓ Safer Route Active
+              </Badge>
             </div>
-          </div>
+          )}
         </div>
         
         {/* Results Panel */}
