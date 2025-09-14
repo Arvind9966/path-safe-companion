@@ -121,7 +121,7 @@ const EmergencyModal = ({ isOpen, onClose, analysis }: EmergencyModalProps) => {
             <Button
               onClick={handleSendSOS}
               variant="outline"
-              className="border-emergency text-emergency hover:bg-emergency hover:text-white"
+              className="border-emergency text-emergency hover:bg-emergency hover:text-primary-foreground"
             >
               <MessageCircle className="h-4 w-4 mr-2" />
               {t('emergency.send_sos')}
