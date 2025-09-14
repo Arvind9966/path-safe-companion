@@ -7,10 +7,12 @@ import MapResult from '@/components/MapResult';
 import ChatPanel from '@/components/ChatPanel';
 import EmergencyModal from '@/components/EmergencyModal';
 import EmergencyContactsManager from '@/components/EmergencyContactsManager';
+import SafetyChatAssistant from '@/components/SafetyChatAssistant';
+import IncidentReporter from '@/components/IncidentReporter';
 import SOSButton from '@/components/SOSButton';
 import { mockScenarios, SafetyAnalysis, ScenarioKey } from '@/data/mockData';
 
-type AppState = 'home' | 'results' | 'contacts';
+type AppState = 'home' | 'results' | 'contacts' | 'chat' | 'report';
 
 interface RouteData {
   from: string;
@@ -117,6 +119,15 @@ const Index = () => {
   const handleShowContacts = () => {
     setAppState('contacts');
   };
+
+  const handleShowChat = () => {
+    setAppState('chat');
+    setIsChatOpen(false);
+  };
+
+  const handleShowReport = () => {
+    setAppState('report');
+  };
   
   const handleOpenChat = () => {
     setIsChatOpen(true);
@@ -136,7 +147,11 @@ const Index = () => {
   
   return (
     <div className="min-h-screen bg-background">
-      <Header onShowContacts={handleShowContacts} />
+      <Header 
+        onShowContacts={handleShowContacts}
+        onShowChat={handleShowChat}
+        onShowReport={handleShowReport}
+      />
       
       {appState === 'home' && (
         <Home onSubmit={handleRouteSubmit} />
@@ -151,6 +166,32 @@ const Index = () => {
             ← Back to Home
           </button>
           <EmergencyContactsManager />
+        </div>
+      )}
+
+      {appState === 'chat' && (
+        <div className="container mx-auto px-4 py-8">
+          <button
+            onClick={handleBack}
+            className="mb-6 text-sapphire hover:text-sapphire-light transition-colors"
+          >
+            ← Back to Home
+          </button>
+          <div className="h-[600px]">
+            <SafetyChatAssistant />
+          </div>
+        </div>
+      )}
+
+      {appState === 'report' && (
+        <div className="container mx-auto px-4 py-8">
+          <button
+            onClick={handleBack}
+            className="mb-6 text-sapphire hover:text-sapphire-light transition-colors"
+          >
+            ← Back to Home
+          </button>
+          <IncidentReporter />
         </div>
       )}
       

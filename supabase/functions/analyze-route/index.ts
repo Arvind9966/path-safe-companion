@@ -10,6 +10,7 @@ const corsHeaders = {
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
 const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 const googleMapsApiKey = Deno.env.get('GOOGLE_MAPS_API_KEY');
+const geminiApiKey = Deno.env.get('GEMINI_API_KEY');
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
@@ -53,12 +54,22 @@ serve(async (req) => {
             const distance = leg.distance?.value || 0;
             const isNightTime = time && new Date(time).getHours() >= 22 || new Date(time).getHours() <= 6;
             
-            // Calculate risk score based on various factors
-            riskScore = calculateRiskScore(duration, distance, isNightTime, route.summary);
-            
-            shortReason = generateShortReason(riskScore, isNightTime, route.summary);
-            detailedReason = generateDetailedReason(duration, distance, isNightTime, route.summary);
-            recommendedRoute = generateRecommendedRoute(riskScore, route.summary);
+            // Use Gemini AI for enhanced route analysis if available
+            if (geminiApiKey) {
+              const geminiAnalysis = await analyzeRouteWithGemini(origin, destination, time, city, route, leg);
+              if (geminiAnalysis) {
+                riskScore = geminiAnalysis.riskScore;
+                shortReason = geminiAnalysis.shortReason;
+                detailedReason = geminiAnalysis.detailedReason;
+                recommendedRoute = geminiAnalysis.recommendedRoute;
+              }
+            } else {
+              // Fallback to original calculation
+              riskScore = calculateRiskScore(duration, distance, isNightTime, route.summary);
+              shortReason = generateShortReason(riskScore, isNightTime, route.summary);
+              detailedReason = generateDetailedReason(duration, distance, isNightTime, route.summary);
+              recommendedRoute = generateRecommendedRoute(riskScore, route.summary);
+            }
             
             // Get nearby emergency services
             nearestHelp = await getNearbyEmergencyServices(leg.start_location, city);
@@ -287,4 +298,118 @@ function translateToHindi(text: string): string {
   }
   
   return "मार्ग विश्लेषण पूर्ण - सावधानी बरतें"; // Default: Route analysis complete - exercise caution
+}
+
+async function analyzeRouteWithGemini(origin: string, destination: string, time: string, city: string, route: any, leg: any) {
+  try {
+    // Get recent incidents and risk factors for the area
+    const { data: incidents } = await supabase
+      .from('safety_incidents')
+      .select('*')
+      .eq('verified', true)
+      .limit(10);
+    
+    const { data: riskFactors } = await supabase
+      .from('risk_factors')
+      .select('*')
+      .limit(10);
+
+    const incidentContext = incidents?.map(i => 
+      `${i.incident_type} at ${i.location_name} (severity: ${i.severity}/10)`
+    ).join(', ') || 'No recent incidents available';
+
+    const riskContext = riskFactors?.map(r => 
+      `${r.factor_type} at ${r.location_name} (risk: ${r.risk_level}/10)`
+    ).join(', ') || 'No specific risk factors identified';
+
+    const duration = leg.duration?.value || 0;
+    const distance = leg.distance?.value || 0;
+    const travelTime = new Date(time);
+    const isNightTime = travelTime.getHours() >= 22 || travelTime.getHours() <= 6;
+
+    const prompt = `Analyze the safety of this route for women's travel:
+
+Route Details:
+- From: ${origin}
+- To: ${destination}  
+- Travel time: ${time}
+- City: ${city}
+- Route summary: ${route.summary}
+- Duration: ${Math.floor(duration/60)} minutes
+- Distance: ${Math.floor(distance/1000)} km
+- Night travel: ${isNightTime ? 'Yes' : 'No'}
+
+Safety Context:
+- Recent incidents in area: ${incidentContext}
+- Risk factors: ${riskContext}
+
+Please provide:
+1. Risk Score (0-100, where 0 is safest)
+2. Short reason (1-2 sentences)
+3. Detailed reasons (3-4 bullet points)
+4. Recommended route suggestions
+
+Focus on factors like: lighting, foot traffic, crime history, time of day, area reputation, emergency service proximity.
+
+Format response as JSON:
+{
+  "riskScore": number,
+  "shortReason": "string", 
+  "detailedReason": ["reason1", "reason2", "reason3"],
+  "recommendedRoute": "string"
+}`;
+
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        contents: [{
+          parts: [{
+            text: prompt
+          }]
+        }],
+        generationConfig: {
+          temperature: 0.3,
+          topP: 0.8,
+          maxOutputTokens: 1024,
+        }
+      })
+    });
+
+    if (!response.ok) {
+      console.error('Gemini API error:', response.status);
+      return null;
+    }
+
+    const data = await response.json();
+    const geminiText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    
+    if (!geminiText) {
+      console.error('No response from Gemini API');
+      return null;
+    }
+
+    // Try to extract JSON from response
+    const jsonMatch = geminiText.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) {
+      console.error('Could not parse JSON from Gemini response');
+      return null;
+    }
+
+    const analysis = JSON.parse(jsonMatch[0]);
+    console.log('Gemini route analysis:', analysis);
+    
+    return {
+      riskScore: Math.min(100, Math.max(0, analysis.riskScore || 50)),
+      shortReason: analysis.shortReason || 'Route analysis completed',
+      detailedReason: Array.isArray(analysis.detailedReason) ? analysis.detailedReason : ['Analysis completed with available data'],
+      recommendedRoute: analysis.recommendedRoute || 'Current route appears suitable'
+    };
+
+  } catch (error) {
+    console.error('Error in Gemini route analysis:', error);
+    return null;
+  }
 }
