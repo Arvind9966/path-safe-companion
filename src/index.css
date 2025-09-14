@@ -17,7 +17,7 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 231 48% 48%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -34,7 +34,32 @@ All colors MUST be HSL.
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --ring: 231 48% 48%;
+
+    /* GuardianAI Custom Design System */
+    --guardian-indigo: 231 48% 48%;
+    --guardian-indigo-light: 231 48% 88%;
+    --guardian-indigo-dark: 231 48% 25%;
+    
+    --risk-low: 142 76% 36%;
+    --risk-low-bg: 142 76% 95%;
+    --risk-medium: 48 96% 53%;
+    --risk-medium-bg: 48 96% 95%;
+    --risk-high: 0 84% 60%;
+    --risk-high-bg: 0 84% 95%;
+    
+    --emergency: 0 84% 60%;
+    --emergency-hover: 0 84% 50%;
+    
+    --gradient-guardian: linear-gradient(135deg, hsl(var(--guardian-indigo)), hsl(var(--guardian-indigo-dark)));
+    --gradient-risk-low: linear-gradient(135deg, hsl(var(--risk-low)), hsl(142 76% 28%));
+    --gradient-risk-medium: linear-gradient(135deg, hsl(var(--risk-medium)), hsl(48 96% 45%));
+    --gradient-risk-high: linear-gradient(135deg, hsl(var(--risk-high)), hsl(0 84% 52%));
+    
+    --shadow-guardian: 0 10px 30px -10px hsl(var(--guardian-indigo) / 0.3);
+    --shadow-emergency: 0 10px 30px -10px hsl(var(--emergency) / 0.4);
+    
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     --radius: 0.5rem;
 
@@ -83,6 +108,12 @@ All colors MUST be HSL.
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+    
+    /* Dark mode guardian colors */
+    --guardian-indigo: 231 48% 65%;
+    --guardian-indigo-light: 231 48% 85%;
+    --guardian-indigo-dark: 231 48% 45%;
+    
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
