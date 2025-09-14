@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Loader } from '@googlemaps/js-api-loader';
 import { MapPin, Navigation, Zap } from 'lucide-react';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 declare global {
   interface Window {
@@ -24,10 +26,11 @@ const GoogleMap = ({
   className = "w-full h-96" 
 }: GoogleMapProps) => {
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<google.maps.Map | null>(null);
+  const map = useRef<any>(null); // google.maps.Map | L.Map
   const [googleMapsApiKey, setGoogleMapsApiKey] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [useLeafletFallback, setUseLeafletFallback] = useState(false);
 
   // Fetch Google Maps API key (reusing the mapbox token endpoint since it returns Google Maps key)
   useEffect(() => {
@@ -123,6 +126,17 @@ const GoogleMap = ({
         console.log('Map created, adding markers and route...');
         addMarkersAndRoute(google);
         console.log('Map initialization complete');
+
+        // Detect Google Maps error overlay and fall back to Leaflet
+        setTimeout(() => {
+          const text = mapContainer.current?.innerText || '';
+          const hasErrorOverlay = /Something went wrong|This page didn't load Google Maps/i.test(text);
+          if (hasErrorOverlay) {
+            console.warn('Google Maps error overlay detected, switching to Leaflet fallback');
+            setUseLeafletFallback(true);
+          }
+        }, 1200);
+
       } catch (err) {
         console.error('Error initializing Google Maps:', err);
         setError('Failed to initialize map: ' + (err as Error).message);
@@ -131,6 +145,46 @@ const GoogleMap = ({
 
     initMap();
   }, [googleMapsApiKey, origin, destination, riskScore]);
+
+  // Initialize Leaflet fallback if needed
+  useEffect(() => {
+    if (!useLeafletFallback || !mapContainer.current) return;
+    try {
+      // Clear existing contents
+      mapContainer.current.innerHTML = '';
+      const originCoords: [number, number] = [19.0596, 72.8297];
+      const destinationCoords: [number, number] = [19.1136, 72.8697];
+      
+      map.current = L.map(mapContainer.current).setView(originCoords, 13);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map.current);
+      
+      // Markers
+      L.circleMarker(originCoords, { radius: 8, color: '#3B82F6', fillColor: '#3B82F6', fillOpacity: 1 }).addTo(map.current)
+        .bindPopup(`<b>Origin</b><br/>${origin || 'Starting Point'}`);
+      L.circleMarker(destinationCoords, { radius: 8, color: '#10B981', fillColor: '#10B981', fillOpacity: 1 }).addTo(map.current)
+        .bindPopup(`<b>Destination</b><br/>${destination || 'End Point'}`);
+      
+      // Route line
+      const routeLatLngs: [number, number][] = [
+        originCoords,
+        [19.0800, 72.8450],
+        [19.0950, 72.8600],
+        destinationCoords
+      ];
+      const routeColor = riskScore > 66 ? '#EF4444' : riskScore > 33 ? '#F59E0B' : '#10B981';
+      L.polyline(routeLatLngs, { color: routeColor, weight: 6, opacity: 0.9 }).addTo(map.current);
+
+      // Fit bounds
+      const bounds = L.latLngBounds(routeLatLngs);
+      map.current.fitBounds(bounds, { padding: [30, 30] });
+    } catch (e) {
+      console.error('Leaflet fallback failed:', e);
+      setError('Map failed to load');
+    }
+  }, [useLeafletFallback, origin, destination, riskScore]);
 
   const addMarkersAndRoute = (google: any) => {
     if (!map.current) return;
