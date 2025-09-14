@@ -81,9 +81,9 @@ const SimpleMap = ({
     // Original route (main route)
     const originalRouteCoords: [number, number][] = [
       originCoords,
-      [19.0750, 72.8350], // Via Link Road (risky area)
-      [19.0900, 72.8500], 
-      [19.1000, 72.8600],
+      [19.0700, 72.8750], // Via narrow lanes (risky area)
+      [19.0620, 72.8650], 
+      [19.0580, 72.8450],
       destinationCoords
     ];
 
@@ -99,7 +99,7 @@ const SimpleMap = ({
 
     // Add risk indicator for high-risk areas on original route
     if (riskScore > 66 && !showAlternateRoute) {
-      const riskPoint: [number, number] = [19.0750, 72.8350];
+      const riskPoint: [number, number] = [19.0700, 72.8750];
       L.circleMarker(riskPoint, { 
         radius: 8, 
         color: '#dc2626', 
@@ -116,10 +116,10 @@ const SimpleMap = ({
       
       const alternateRouteCoords: [number, number][] = [
         originCoords,
-        [19.0650, 72.8400], // Via SV Road (main road)
-        [19.0800, 72.8480], // Via Highway
-        [19.0950, 72.8580], // Via well-lit areas
-        [19.1080, 72.8650], // Near police station
+        [19.0680, 72.8780], // Via university road
+        [19.0620, 72.8700], // Via SV Road (main road)
+        [19.0580, 72.8550], // Via Western Express Highway
+        [19.0550, 72.8420], // Via Hill Road
         destinationCoords
       ];
 
@@ -134,10 +134,10 @@ const SimpleMap = ({
 
       // Add safety indicators along alternate route
       const safetyPoints: Array<[number, number, string, string]> = [
-        [19.0650, 72.8400, '🛣️ Main Road', 'Well-lit SV Road with regular traffic'],
-        [19.0800, 72.8480, '📹 CCTV Area', 'Highway with security cameras'],
-        [19.0950, 72.8580, '🏪 Commercial Area', 'Shops and businesses open late'],
-        [19.1080, 72.8650, '🚓 Police Station', 'Police chowki nearby']
+        [19.0680, 72.8780, '🏫 University Area', 'Well-lit campus road with security'],
+        [19.0620, 72.8700, '🛣️ SV Road', 'Main road with regular traffic and shops'],
+        [19.0580, 72.8550, '📹 Highway', 'Western Express Highway with CCTV coverage'],
+        [19.0550, 72.8420, '🚓 Hill Road', 'Commercial area near police station']
       ];
 
       safetyPoints.forEach(([lat, lng, icon, description]) => {
@@ -154,7 +154,7 @@ const SimpleMap = ({
 
     // Fit map to show all routes
     const allCoords = showAlternateRoute 
-      ? [...originalRouteCoords, [19.0650, 72.8400], [19.1080, 72.8650]]
+      ? [...originalRouteCoords, [19.0680, 72.8780], [19.0550, 72.8420]]
       : originalRouteCoords;
     
     if (map.current) {
