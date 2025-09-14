@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useState } from 'react';
+import { ThemeToggle } from './ThemeToggle';
 
 interface HeaderProps {
   onShowContacts?: () => void;
@@ -69,6 +70,7 @@ const Header = ({ onShowContacts, onShowChat, onShowReport }: HeaderProps) => {
                 Report
               </Button>
             )}
+            <ThemeToggle />
             <Button
               variant="outline"
               size="sm"
@@ -139,6 +141,9 @@ const Header = ({ onShowContacts, onShowChat, onShowReport }: HeaderProps) => {
                 Report Incident
               </Button>
             )}
+            <div className="flex justify-start">
+              <ThemeToggle />
+            </div>
             <Button
               variant="outline"
               size="sm"
