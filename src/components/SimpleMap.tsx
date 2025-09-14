@@ -41,12 +41,18 @@ const SimpleMap = ({
       console.log('Map initialized successfully');
     }
 
-    // Clear existing layers (except the base tile layer)
-    map.current.eachLayer((layer) => {
-      if (layer instanceof L.Marker || layer instanceof L.Polyline || layer instanceof L.CircleMarker) {
-        map.current!.removeLayer(layer);
+    // Clear existing overlays safely (keep base tile layer)
+    if (map.current) {
+      try {
+        map.current.eachLayer((layer) => {
+          if (layer instanceof L.Marker || layer instanceof L.Polyline || layer instanceof L.CircleMarker) {
+            map.current!.removeLayer(layer);
+          }
+        });
+      } catch (e) {
+        console.warn('Leaflet layer cleanup skipped:', e);
       }
-    });
+    }
 
     // Mumbai coordinates
     const originCoords: [number, number] = [19.0596, 72.8297]; // Bandra
@@ -151,11 +157,14 @@ const SimpleMap = ({
       ? [...originalRouteCoords, [19.0650, 72.8400], [19.1080, 72.8650]]
       : originalRouteCoords;
     
-    const bounds = L.latLngBounds(allCoords as [number, number][]);
-    map.current.fitBounds(bounds, { padding: [20, 20] });
+    if (map.current) {
+      const bounds = L.latLngBounds(allCoords as [number, number][]);
+      map.current.fitBounds(bounds, { padding: [20, 20] });
+      // Ensure map renders correctly after layout changes
+      setTimeout(() => map.current && map.current.invalidateSize(), 0);
+    }
 
     console.log('Map updated with routes. Show alternate:', showAlternateRoute);
-
     // Cleanup function
     return () => {
       // Don't destroy the map, just clear layers when component unmounts

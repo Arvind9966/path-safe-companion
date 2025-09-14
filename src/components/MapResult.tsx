@@ -71,7 +71,7 @@ const MapResult = ({ analysis, onBack, onOpenChat, origin, destination }: MapRes
       
       <div className="flex flex-col lg:flex-row h-[calc(100vh-100px)]">
         {/* Map Section */}
-        <div className="flex-1 relative bg-muted rounded-lg mx-4 mb-4 lg:mb-0 lg:mr-2">
+        <div className="flex-1 relative bg-muted rounded-lg mx-4 mb-4 lg:mb-0 lg:mr-2 min-h-[320px]">
           <SimpleMap
             origin={origin}
             destination={destination}
