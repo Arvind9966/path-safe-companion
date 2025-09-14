@@ -158,10 +158,10 @@ const Index = () => {
       )}
 
       {appState === 'contacts' && (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
           <button
             onClick={handleBack}
-            className="mb-6 text-sapphire hover:text-sapphire-light transition-colors"
+            className="mb-4 sm:mb-6 text-sapphire hover:text-sapphire-light transition-colors text-sm sm:text-base"
           >
             ← Back to Home
           </button>
@@ -170,24 +170,24 @@ const Index = () => {
       )}
 
       {appState === 'chat' && (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
           <button
             onClick={handleBack}
-            className="mb-6 text-sapphire hover:text-sapphire-light transition-colors"
+            className="mb-4 sm:mb-6 text-sapphire hover:text-sapphire-light transition-colors text-sm sm:text-base"
           >
             ← Back to Home
           </button>
-          <div className="h-[600px]">
+          <div className="h-[500px] sm:h-[600px]">
             <SafetyChatAssistant />
           </div>
         </div>
       )}
 
       {appState === 'report' && (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
           <button
             onClick={handleBack}
-            className="mb-6 text-sapphire hover:text-sapphire-light transition-colors"
+            className="mb-4 sm:mb-6 text-sapphire hover:text-sapphire-light transition-colors text-sm sm:text-base"
           >
             ← Back to Home
           </button>
@@ -196,7 +196,7 @@ const Index = () => {
       )}
       
       {appState === 'results' && currentAnalysis && routeData && (
-        <div className="flex">
+        <div className="flex flex-col lg:flex-row">
           <div className={`flex-1 ${isChatOpen ? 'lg:pr-96' : ''}`}>
             <MapResult
               analysis={currentAnalysis}

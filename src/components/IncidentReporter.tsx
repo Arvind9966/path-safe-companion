@@ -110,25 +110,25 @@ const IncidentReporter = () => {
 
   return (
     <Card className="glass-panel border-0">
-      <CardHeader>
-        <CardTitle className="text-platinum flex items-center gap-2">
-          <AlertTriangle className="h-5 w-5" />
+      <CardHeader className="px-4 sm:px-6">
+        <CardTitle className="text-platinum flex items-center gap-2 text-lg sm:text-xl">
+          <AlertTriangle className="h-4 w-4 sm:h-5 sm:w-5" />
           Report Safety Incident
         </CardTitle>
-        <CardDescription className="text-silver">
+        <CardDescription className="text-silver text-sm sm:text-base">
           Help keep the community safe by reporting incidents. All reports are reviewed before publication.
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-4 sm:px-6">
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label className="text-platinum">Incident Type *</Label>
+              <Label className="text-platinum text-sm sm:text-base">Incident Type *</Label>
               <Select 
                 value={formData.incident_type} 
                 onValueChange={(value) => setFormData({ ...formData, incident_type: value })}
               >
-                <SelectTrigger className="glass-input border-silver/20 text-platinum">
+                <SelectTrigger className="glass-input border-silver/20 text-platinum h-10 sm:h-11">
                   <SelectValue placeholder="Select incident type" />
                 </SelectTrigger>
                 <SelectContent>
@@ -145,27 +145,27 @@ const IncidentReporter = () => {
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="incident_date" className="text-platinum">Date & Time *</Label>
+              <Label htmlFor="incident_date" className="text-platinum text-sm sm:text-base">Date & Time *</Label>
               <Input
                 id="incident_date"
                 type="datetime-local"
                 value={formData.incident_date}
                 onChange={(e) => setFormData({ ...formData, incident_date: e.target.value })}
-                className="glass-input border-silver/20 text-platinum"
+                className="glass-input border-silver/20 text-platinum h-10 sm:h-11 text-sm sm:text-base"
                 required
               />
             </div>
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="location" className="text-platinum flex items-center gap-2">
-              Location Name *
+            <Label htmlFor="location" className="text-platinum flex flex-col sm:flex-row sm:items-center gap-2 text-sm sm:text-base">
+              <span>Location Name *</span>
               <Button
                 type="button"
                 variant="outline"
                 size="sm"
                 onClick={getCurrentLocation}
-                className="border-silver/20 text-silver hover:bg-silver/10"
+                className="border-silver/20 text-silver hover:bg-silver/10 w-fit"
               >
                 <MapPin className="h-3 w-3 mr-1" />
                 Use Current
@@ -175,7 +175,7 @@ const IncidentReporter = () => {
               id="location"
               value={formData.location_name}
               onChange={(e) => setFormData({ ...formData, location_name: e.target.value })}
-              className="glass-input border-silver/20 text-platinum"
+              className="glass-input border-silver/20 text-platinum h-10 sm:h-11 text-sm sm:text-base"
               placeholder="Street name, area, landmark..."
               required
             />
@@ -187,7 +187,7 @@ const IncidentReporter = () => {
           </div>
           
           <div className="space-y-2">
-            <Label className="text-platinum">Severity Level: {formData.severity}/10</Label>
+            <Label className="text-platinum text-sm sm:text-base">Severity Level: {formData.severity}/10</Label>
             <input
               type="range"
               min="1"
@@ -204,18 +204,18 @@ const IncidentReporter = () => {
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="description" className="text-platinum">Description (Optional)</Label>
-            <Textarea
+            <Label htmlFor="description" className="text-platinum text-sm sm:text-base">Description (Optional)</Label>
+            <textarea
               id="description"
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="glass-input border-silver/20 text-platinum min-h-[100px]"
+              className="w-full glass-input border-silver/20 text-platinum min-h-[80px] sm:min-h-[100px] p-3 text-sm sm:text-base resize-none"
               placeholder="Provide additional details about the incident..."
             />
           </div>
           
           <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-3">
-            <p className="text-amber-200 text-sm">
+            <p className="text-amber-200 text-xs sm:text-sm">
               <strong>Important:</strong> If this is an emergency, please call 100 (Police) or 1091 (Women Helpline) immediately. 
               This form is for reporting past incidents to help others stay safe.
             </p>
@@ -224,13 +224,13 @@ const IncidentReporter = () => {
           <Button 
             type="submit" 
             disabled={loading || !user}
-            className="w-full gradient-crimson hover:scale-105 transition-transform"
+            className="w-full gradient-crimson hover:scale-105 transition-transform h-11 sm:h-12 text-sm sm:text-base"
           >
             {loading ? 'Submitting Report...' : 'Submit Report'}
           </Button>
           
           {!user && (
-            <p className="text-center text-silver text-sm">
+            <p className="text-center text-silver text-xs sm:text-sm">
               Please sign in to submit incident reports
             </p>
           )}

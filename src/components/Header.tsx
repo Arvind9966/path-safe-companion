@@ -16,11 +16,11 @@ const Header = ({ onShowContacts, onShowChat, onShowReport }: HeaderProps) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="glass-premium hover-premium p-8 mx-6 mt-6 relative overflow-hidden">
+    <header className="glass-premium hover-premium p-4 sm:p-6 lg:p-8 mx-3 sm:mx-6 mt-3 sm:mt-6 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-glass opacity-40 my-0 py-[10px]"></div>
       <div className="relative flex items-center justify-between">
-        <div className="flex items-center">
-          <h1 className="text-4xl font-semibold title-premium tracking-tight">
+        <div className="flex items-center min-w-0 flex-1">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold title-premium tracking-tight truncate">
             {t('header.title')}
           </h1>
         </div>

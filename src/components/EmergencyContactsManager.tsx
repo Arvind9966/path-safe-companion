@@ -134,15 +134,15 @@ const EmergencyContactsManager = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
+    <div className="space-y-4 sm:space-y-6 px-4 sm:px-0">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-platinum">Emergency Contacts</h2>
-          <p className="text-silver">Manage your emergency contacts for quick access</p>
+          <h2 className="text-xl sm:text-2xl font-bold text-platinum">Emergency Contacts</h2>
+          <p className="text-sm sm:text-base text-silver">Manage your emergency contacts for quick access</p>
         </div>
         <Button
           onClick={() => setIsAdding(true)}
-          className="gradient-emerald hover:scale-105 transition-transform"
+          className="gradient-emerald hover:scale-105 transition-transform w-full sm:w-auto"
         >
           <Plus className="h-4 w-4 mr-2" />
           Add Contact
@@ -157,41 +157,41 @@ const EmergencyContactsManager = () => {
               Enter the details for your emergency contact
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-4 sm:px-6">
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="text-platinum">Name *</Label>
+                  <Label htmlFor="name" className="text-platinum text-sm sm:text-base">Name *</Label>
                   <Input
                     id="name"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="glass-input border-silver/20 text-platinum"
+                    className="glass-input border-silver/20 text-platinum h-10 sm:h-11"
                     placeholder="Contact name"
                     required
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="phone" className="text-platinum">Phone Number *</Label>
+                  <Label htmlFor="phone" className="text-platinum text-sm sm:text-base">Phone Number *</Label>
                   <Input
                     id="phone"
                     value={formData.phone_number}
                     onChange={(e) => setFormData({ ...formData, phone_number: e.target.value })}
-                    className="glass-input border-silver/20 text-platinum"
+                    className="glass-input border-silver/20 text-platinum h-10 sm:h-11"
                     placeholder="+1234567890"
                     required
                   />
                 </div>
               </div>
               
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="space-y-2">
-                  <Label className="text-platinum">Contact Type</Label>
+                  <Label className="text-platinum text-sm sm:text-base">Contact Type</Label>
                   <Select 
                     value={formData.contact_type} 
                     onValueChange={(value) => setFormData({ ...formData, contact_type: value })}
                   >
-                    <SelectTrigger className="glass-input border-silver/20 text-platinum">
+                    <SelectTrigger className="glass-input border-silver/20 text-platinum h-10 sm:h-11">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -204,48 +204,52 @@ const EmergencyContactsManager = () => {
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="city" className="text-platinum">City *</Label>
+                  <Label htmlFor="city" className="text-platinum text-sm sm:text-base">City *</Label>
                   <Input
                     id="city"
                     value={formData.city}
                     onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                    className="glass-input border-silver/20 text-platinum"
+                    className="glass-input border-silver/20 text-platinum h-10 sm:h-11"
                     placeholder="City"
                     required
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="state" className="text-platinum">State</Label>
+                  <Label htmlFor="state" className="text-platinum text-sm sm:text-base">State</Label>
                   <Input
                     id="state"
                     value={formData.state}
                     onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                    className="glass-input border-silver/20 text-platinum"
+                    className="glass-input border-silver/20 text-platinum h-10 sm:h-11"
                     placeholder="State"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="address" className="text-platinum">Address</Label>
+                <Label htmlFor="address" className="text-platinum text-sm sm:text-base">Address</Label>
                 <Input
                   id="address"
                   value={formData.address}
                   onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                  className="glass-input border-silver/20 text-platinum"
+                  className="glass-input border-silver/20 text-platinum h-10 sm:h-11"
                   placeholder="Full address"
                 />
               </div>
 
-              <div className="flex gap-2">
-                <Button type="submit" disabled={loading} className="gradient-sapphire">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-2">
+                <Button 
+                  type="submit" 
+                  disabled={loading} 
+                  className="gradient-sapphire w-full sm:w-auto"
+                >
                   {loading ? 'Adding...' : 'Add Contact'}
                 </Button>
                 <Button 
                   type="button" 
                   variant="outline" 
                   onClick={() => setIsAdding(false)}
-                  className="border-silver/20 text-silver hover:bg-silver/10"
+                  className="border-silver/20 text-silver hover:bg-silver/10 w-full sm:w-auto"
                 >
                   Cancel
                 </Button>

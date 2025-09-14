@@ -126,25 +126,26 @@ const SafetyChatAssistant = () => {
 
   return (
     <Card className="glass-panel border-0 h-full flex flex-col">
-      <CardHeader className="flex-shrink-0">
-        <CardTitle className="text-platinum flex items-center gap-2">
-          <MessageSquare className="h-5 w-5" />
-          GuardianAI Safety Assistant
+      <CardHeader className="flex-shrink-0 px-4 sm:px-6 py-3 sm:py-6">
+        <CardTitle className="text-platinum flex items-center gap-2 text-lg sm:text-xl">
+          <MessageSquare className="h-4 w-4 sm:h-5 sm:w-5" />
+          <span className="hidden sm:inline">GuardianAI Safety Assistant</span>
+          <span className="sm:hidden">GuardianAI</span>
         </CardTitle>
-        <CardDescription className="text-silver">
+        <CardDescription className="text-silver text-sm sm:text-base">
           Ask about route safety, crime reports, emergency procedures, and safety tips
         </CardDescription>
       </CardHeader>
       
-      <CardContent className="flex-1 flex flex-col min-h-0">
+      <CardContent className="flex-1 flex flex-col min-h-0 px-4 sm:px-6">
         {/* Chat Messages */}
-        <div className="flex-1 overflow-y-auto space-y-4 mb-4 min-h-0">
+        <div className="flex-1 overflow-y-auto space-y-3 sm:space-y-4 mb-3 sm:mb-4 min-h-0">
           {messages.length === 0 && (
-            <div className="text-center text-silver py-8">
-              <Bot className="h-12 w-12 mx-auto mb-4 text-sapphire" />
-              <p className="mb-2">Hello! I'm your safety assistant.</p>
-              <p className="text-sm">Ask me about:</p>
-              <ul className="text-sm mt-2 space-y-1">
+            <div className="text-center text-silver py-4 sm:py-8">
+              <Bot className="h-8 w-8 sm:h-12 sm:w-12 mx-auto mb-3 sm:mb-4 text-sapphire" />
+              <p className="mb-2 text-sm sm:text-base">Hello! I'm your safety assistant.</p>
+              <p className="text-xs sm:text-sm">Ask me about:</p>
+              <ul className="text-xs sm:text-sm mt-2 space-y-1">
                 <li>• Route safety analysis</li>
                 <li>• Emergency contacts and procedures</li>
                 <li>• Safety tips and precautions</li>
@@ -214,16 +215,16 @@ const SafetyChatAssistant = () => {
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             onKeyPress={handleKeyPress}
-            placeholder="Ask about safety concerns, routes, or emergency procedures..."
-            className="glass-input border-silver/20 text-platinum flex-1"
+            placeholder="Ask about safety concerns..."
+            className="glass-input border-silver/20 text-platinum flex-1 h-10 sm:h-11 text-sm sm:text-base"
             disabled={isLoading}
           />
           <Button
             onClick={sendMessage}
             disabled={!inputMessage.trim() || isLoading}
-            className="gradient-sapphire hover:scale-105 transition-transform"
+            className="gradient-sapphire hover:scale-105 transition-transform h-10 sm:h-11 px-3 sm:px-4"
           >
-            <Send className="h-4 w-4" />
+            <Send className="h-3 w-3 sm:h-4 sm:w-4" />
           </Button>
         </div>
       </CardContent>
