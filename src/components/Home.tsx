@@ -65,34 +65,26 @@ const Home = ({ onSubmit }: HomeProps) => {
   return (
     <div className="min-h-screen bg-gradient-premium">
       {/* Hero Section */}
-      <div className="relative h-96 mb-12 overflow-hidden">
-        <img
-          src={heroImage}
-          alt="GuardianAI Safety Technology"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-premium/85 flex items-center justify-center">
-          <div className="text-center relative max-w-4xl mx-auto">
-            <div className="absolute inset-0 bg-sapphire/10 blur-3xl rounded-full animate-float-gentle"></div>
-            <h1 className="text-7xl font-semibold title-premium mb-6 relative z-10 tracking-tight">
-              GuardianAI
-            </h1>
-            <p className="text-3xl text-premium relative z-10 mb-8 font-light">
-              Predictive Safety Companion
-            </p>
-            <div className="flex items-center justify-center mt-8 space-x-8">
-              <div className="flex items-center glass-premium px-6 py-3 hover-float">
-                <Shield className="w-6 h-6 text-sapphire mr-3" />
-                <span className="text-base text-platinum font-medium">AI-Powered</span>
-              </div>
-              <div className="flex items-center glass-premium px-6 py-3 hover-float">
-                <Zap className="w-6 h-6 text-emerald mr-3" />
-                <span className="text-base text-platinum font-medium">Real-Time</span>
-              </div>
-              <div className="flex items-center glass-premium px-6 py-3 hover-float">
-                <Eye className="w-6 h-6 text-amber mr-3" />
-                <span className="text-base text-platinum font-medium">Predictive</span>
-              </div>
+      <div className="max-w-4xl mx-auto mb-12 px-8">
+        <div className="bg-white/10 border border-white/20 rounded-3xl p-12 text-center backdrop-blur-xl">
+          <h1 className="text-7xl font-semibold title-premium mb-6 tracking-tight">
+            GuardianAI
+          </h1>
+          <p className="text-3xl text-premium mb-8 font-light">
+            Predictive Safety Companion
+          </p>
+          <div className="flex items-center justify-center mt-8 space-x-8">
+            <div className="flex items-center glass-premium px-6 py-3 hover-float">
+              <Shield className="w-6 h-6 text-sapphire mr-3" />
+              <span className="text-base text-platinum font-medium">AI-Powered</span>
+            </div>
+            <div className="flex items-center glass-premium px-6 py-3 hover-float">
+              <Zap className="w-6 h-6 text-emerald mr-3" />
+              <span className="text-base text-platinum font-medium">Real-Time</span>
+            </div>
+            <div className="flex items-center glass-premium px-6 py-3 hover-float">
+              <Eye className="w-6 h-6 text-amber mr-3" />
+              <span className="text-base text-platinum font-medium">Predictive</span>
             </div>
           </div>
         </div>
