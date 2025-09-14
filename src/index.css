@@ -168,6 +168,12 @@ All colors MUST be HSL.
     box-shadow: var(--shadow-premium);
   }
 
+  /* Glass panels that adapt to theme */
+  .glass-panel {
+    @apply backdrop-blur-3xl rounded-3xl border bg-card/80 shadow-lg;
+    backdrop-filter: blur(40px) saturate(180%);
+  }
+
   .glass-sapphire {
     @apply glass-premium;
     box-shadow: var(--shadow-sapphire), var(--shadow-premium);
@@ -178,6 +184,12 @@ All colors MUST be HSL.
     @apply glass-premium;
     box-shadow: var(--shadow-emerald), var(--shadow-premium);
     border-color: hsl(var(--emerald) / 0.2);
+  }
+
+  /* Gradient buttons */
+  .gradient-sapphire {
+    background: var(--gradient-sapphire);
+    @apply text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all;
   }
 
   /* Premium 3D Hover Effects */

@@ -29,7 +29,7 @@ const Header = ({ onShowContacts, onShowChat, onShowReport }: HeaderProps) => {
         <div className="flex items-center space-x-4">
           {/* Mobile menu button */}
           <button
-            className="md:hidden text-platinum hover:text-sapphire transition-colors"
+            className="md:hidden text-foreground hover:text-primary transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -42,7 +42,7 @@ const Header = ({ onShowContacts, onShowChat, onShowReport }: HeaderProps) => {
                 variant="outline"
                 size="sm"
                 onClick={onShowContacts}
-                className="border-silver/20 text-silver hover:bg-silver/10"
+                className="border-border hover:bg-accent"
               >
                 <Users className="h-4 w-4 mr-1" />
                 Contacts
@@ -75,7 +75,7 @@ const Header = ({ onShowContacts, onShowChat, onShowReport }: HeaderProps) => {
               variant="outline"
               size="sm"
               onClick={() => setLanguage(language === 'en' ? 'hi' : 'en')}
-              className="border-silver/20 text-silver hover:bg-silver/10"
+              className="border-border hover:bg-accent"
             >
               <Globe className="h-4 w-4 mr-2" />
               {language === 'en' ? 'हिंदी' : 'English'}
@@ -85,7 +85,7 @@ const Header = ({ onShowContacts, onShowChat, onShowReport }: HeaderProps) => {
                 variant="outline"
                 size="sm"
                 onClick={() => signOut()}
-                className="border-crimson/20 text-crimson hover:bg-crimson/10"
+                className="border-destructive/20 text-destructive hover:bg-destructive/10"
               >
                 <LogOut className="h-4 w-4 mr-2" />
                 Sign Out
@@ -97,7 +97,7 @@ const Header = ({ onShowContacts, onShowChat, onShowReport }: HeaderProps) => {
 
       {/* Mobile menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden mt-4 pt-4 border-t border-silver/20">
+        <div className="md:hidden mt-4 pt-4 border-t border-border">
           <div className="flex flex-col space-y-2">
             {onShowContacts && (
               <Button
@@ -107,7 +107,7 @@ const Header = ({ onShowContacts, onShowChat, onShowReport }: HeaderProps) => {
                   onShowContacts();
                   setMobileMenuOpen(false);
                 }}
-                className="border-silver/20 text-silver hover:bg-silver/10 justify-start"
+                className="border-border hover:bg-accent justify-start"
               >
                 <Users className="h-4 w-4 mr-2" />
                 Emergency Contacts
@@ -151,7 +151,7 @@ const Header = ({ onShowContacts, onShowChat, onShowReport }: HeaderProps) => {
                 setLanguage(language === 'en' ? 'hi' : 'en');
                 setMobileMenuOpen(false);
               }}
-              className="border-silver/20 text-silver hover:bg-silver/10 justify-start"
+              className="border-border hover:bg-accent justify-start"
             >
               <Globe className="h-4 w-4 mr-2" />
               {language === 'en' ? 'हिंदी' : 'English'}
@@ -164,7 +164,7 @@ const Header = ({ onShowContacts, onShowChat, onShowReport }: HeaderProps) => {
                   signOut();
                   setMobileMenuOpen(false);
                 }}
-                className="border-crimson/20 text-crimson hover:bg-crimson/10 justify-start"
+                className="border-destructive/20 text-destructive hover:bg-destructive/10 justify-start"
               >
                 <LogOut className="h-4 w-4 mr-2" />
                 Sign Out

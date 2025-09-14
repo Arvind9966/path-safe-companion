@@ -68,7 +68,7 @@ const Home = ({ onSubmit }: HomeProps) => {
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 title-premium tracking-tight">
           GuardianAI
         </h1>
-        <p className="text-base sm:text-lg lg:text-xl text-silver mb-4 sm:mb-6 max-w-2xl mx-auto leading-relaxed px-2">
+        <p className="text-base sm:text-lg lg:text-xl text-muted-foreground mb-4 sm:mb-6 max-w-2xl mx-auto leading-relaxed px-2">
           Your intelligent safety companion for secure travel routes and real-time protection
         </p>
         <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
@@ -90,10 +90,10 @@ const Home = ({ onSubmit }: HomeProps) => {
       {/* Route Analysis Form */}
       <Card className="glass-panel border-0 max-w-2xl w-full">
         <CardHeader className="text-center pb-3 sm:pb-4 px-4 sm:px-6">
-          <CardTitle className="text-xl sm:text-2xl lg:text-3xl font-bold text-platinum mb-2">
+          <CardTitle className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground mb-2">
             Plan Your Safe Journey
           </CardTitle>
-          <CardDescription className="text-silver text-sm sm:text-base lg:text-lg px-2">
+          <CardDescription className="text-muted-foreground text-sm sm:text-base lg:text-lg px-2">
             Get AI-powered safety analysis for your route with real-time risk assessment
           </CardDescription>
         </CardHeader>
@@ -102,13 +102,13 @@ const Home = ({ onSubmit }: HomeProps) => {
           <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div className="space-y-2">
-                <Label htmlFor="from" className="text-platinum font-medium text-sm sm:text-base">From</Label>
+                <Label htmlFor="from" className="text-foreground font-medium text-sm sm:text-base">From</Label>
                 <div className="relative">
                   <Input
                     id="from"
                     value={formData.from}
                     onChange={(e) => setFormData({ ...formData, from: e.target.value })}
-                    className="glass-input border-silver/20 text-platinum bg-charcoal/50 h-10 sm:h-12 text-sm sm:text-base pr-20 sm:pr-24"
+                    className="h-10 sm:h-12 text-sm sm:text-base pr-20 sm:pr-24"
                     placeholder="Starting location"
                     required
                   />
@@ -125,12 +125,12 @@ const Home = ({ onSubmit }: HomeProps) => {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="to" className="text-platinum font-medium text-sm sm:text-base">To</Label>
+                <Label htmlFor="to" className="text-foreground font-medium text-sm sm:text-base">To</Label>
                 <Input
                   id="to"
                   value={formData.to}
                   onChange={(e) => setFormData({ ...formData, to: e.target.value })}
-                  className="glass-input border-silver/20 text-platinum bg-charcoal/50 h-10 sm:h-12 text-sm sm:text-base"
+                  className="h-10 sm:h-12 text-sm sm:text-base"
                   placeholder="Destination"
                   required
                 />
@@ -138,9 +138,9 @@ const Home = ({ onSubmit }: HomeProps) => {
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="time" className="text-platinum font-medium text-sm sm:text-base">Travel Time</Label>
+              <Label htmlFor="time" className="text-foreground font-medium text-sm sm:text-base">Travel Time</Label>
               <Select value={formData.time} onValueChange={(value) => setFormData({ ...formData, time: value })}>
-                <SelectTrigger className="glass-input border-silver/20 text-platinum bg-charcoal/50 h-10 sm:h-12 text-sm sm:text-base">
+                <SelectTrigger className="h-10 sm:h-12 text-sm sm:text-base">
                   <SelectValue placeholder="Select time" />
                 </SelectTrigger>
                 <SelectContent>
@@ -177,8 +177,8 @@ const Home = ({ onSubmit }: HomeProps) => {
           </form>
           
           {/* Quick Demo Options */}
-          <div className="pt-3 sm:pt-4 border-t border-silver/20">
-            <p className="text-center text-silver text-xs sm:text-sm mb-3">
+          <div className="pt-3 sm:pt-4 border-t border-border">
+            <p className="text-center text-muted-foreground text-xs sm:text-sm mb-3">
               Try these demo scenarios:
             </p>
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
