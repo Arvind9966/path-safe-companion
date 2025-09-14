@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
-import { Phone, MessageSquare, Navigation, ArrowLeft, MapPin, Shield } from 'lucide-react';
+import { Phone, MessageSquare, Navigation, ArrowLeft, MapPin, Shield, CheckCircle } from 'lucide-react';
 import { SafetyAnalysis } from '@/data/mockData';
 import { useToast } from '@/hooks/use-toast';
 import SimpleMap from './SimpleMap';
@@ -23,9 +23,9 @@ const MapResult = ({ analysis, onBack, onOpenChat, origin, destination }: MapRes
   const [showAlternateRoute, setShowAlternateRoute] = useState(false);
   
   const getRiskLevel = (score: number) => {
-    if (score <= 33) return { level: 'low', label: t('risk.low'), color: 'risk-low' };
-    if (score <= 66) return { level: 'medium', label: t('risk.medium'), color: 'risk-medium' };
-    return { level: 'high', label: t('risk.high'), color: 'risk-high' };
+    if (score <= 33) return { level: 'low', label: t('risk.low'), color: 'emerald' };
+    if (score <= 66) return { level: 'medium', label: t('risk.medium'), color: 'amber' };
+    return { level: 'high', label: t('risk.high'), color: 'crimson' };
   };
   
   const risk = getRiskLevel(currentRisk);
@@ -56,12 +56,12 @@ const MapResult = ({ analysis, onBack, onOpenChat, origin, destination }: MapRes
   };
   
   return (
-    <div className="min-h-screen bg-gradient-space">
+    <div className="min-h-screen bg-gradient-premium">
       {/* Back Button */}
-      <div className="p-6">
+      <div className="p-8">
         <Button
           onClick={onBack}
-          className="glass-panel hover-glow border-cyber text-cyber-white backdrop-blur-xl"
+          className="glass-premium hover-float border-premium text-platinum backdrop-blur-xl px-6 py-3"
           variant="outline"
         >
           <ArrowLeft className="h-4 w-4 mr-2" />
@@ -69,17 +69,17 @@ const MapResult = ({ analysis, onBack, onOpenChat, origin, destination }: MapRes
         </Button>
       </div>
       
-      <div className="flex flex-col xl:flex-row h-[calc(100vh-120px)] gap-6 px-6">
-        {/* Map Section - 3D Tilted Container */}
-        <div className="flex-1 relative glass-panel-cyber hover-3d p-4 min-h-[400px]">
-          <div className="absolute top-4 left-4 z-20">
-            <Badge className="glass-panel text-cyber-cyan border-cyber backdrop-blur-xl font-semibold">
-              <MapPin className="w-3 h-3 mr-1" />
+      <div className="flex flex-col xl:flex-row h-[calc(100vh-140px)] gap-8 px-8">
+        {/* Map Section - Premium 3D Container */}
+        <div className="flex-1 relative glass-sapphire hover-premium p-6 min-h-[400px]">
+          <div className="absolute top-6 left-6 z-20">
+            <Badge className="glass-premium text-sapphire border-sapphire backdrop-blur-xl font-medium px-4 py-2">
+              <MapPin className="w-4 h-4 mr-2" />
               Route Analysis
             </Badge>
           </div>
           
-          <div className="map-3d w-full h-full overflow-hidden rounded-xl">
+          <div className="map-premium w-full h-full overflow-hidden">
             <SimpleMap
               origin={origin}
               destination={destination}
@@ -90,9 +90,9 @@ const MapResult = ({ analysis, onBack, onOpenChat, origin, destination }: MapRes
           </div>
           
           {showAlternateRoute && (
-            <div className="absolute top-4 right-4 z-20">
-              <Badge className="glass-panel bg-risk-low/20 text-risk-low border-risk-low backdrop-blur-xl animate-pulse">
-                <Shield className="w-3 h-3 mr-1" />
+            <div className="absolute top-6 right-6 z-20">
+              <Badge className="glass-premium bg-emerald/20 text-emerald border-emerald backdrop-blur-xl animate-float-gentle px-4 py-2">
+                <CheckCircle className="w-4 h-4 mr-2" />
                 Safer Route Active
               </Badge>
             </div>
@@ -100,34 +100,34 @@ const MapResult = ({ analysis, onBack, onOpenChat, origin, destination }: MapRes
         </div>
         
         {/* Results Panel */}
-        <div className="w-full xl:w-[420px] space-y-6">
+        <div className="w-full xl:w-[480px] space-y-8">
           {/* Risk Assessment Card */}
-          <div className="glass-panel-purple hover-3d p-6 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-cyber opacity-10"></div>
+          <div className="glass-emerald hover-premium p-8 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-glass opacity-20"></div>
             <div className="relative">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold cyber-title">Risk Assessment</h2>
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-2xl font-semibold title-premium">Risk Assessment</h2>
                 <RiskGauge3D score={currentRisk} />
               </div>
               
-              <div className="space-y-4">
-                <div className="glass-panel p-4 bg-white/5">
-                  <p className="font-medium text-cyber-white mb-3">{analysis.short_reason}</p>
-                  <ul className="space-y-2 text-sm cyber-text">
+              <div className="space-y-6">
+                <div className="glass-premium p-6 bg-white/5 rounded-2xl">
+                  <p className="font-medium text-platinum mb-4 text-lg">{analysis.short_reason}</p>
+                  <ul className="space-y-3 text-sm text-premium">
                     {analysis.detailed_reason.map((reason, index) => (
                       <li key={index} className="flex items-start">
-                        <span className="mr-2 text-cyber-cyan">•</span>
-                        <span>{reason}</span>
+                        <span className="mr-3 text-sapphire font-bold">•</span>
+                        <span className="leading-relaxed">{reason}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
                 
-                <div className="space-y-3">
+                <div className="space-y-4">
                   <Button
                     onClick={handleRecommendRoute}
                     disabled={showAlternateRoute}
-                    className="w-full glass-panel bg-cyber-cyan/20 hover:bg-cyber-cyan/30 border-cyber text-cyber-white hover-glow backdrop-blur-xl transition-glow font-semibold"
+                    className="w-full btn-sapphire py-4 text-base font-medium"
                   >
                     {showAlternateRoute ? 'Route Optimized' : t('result.recommend_route')}
                   </Button>
@@ -135,16 +135,16 @@ const MapResult = ({ analysis, onBack, onOpenChat, origin, destination }: MapRes
                   <Button
                     onClick={onOpenChat}
                     variant="outline"
-                    className="w-full glass-panel border-purple text-cyber-white hover-glow backdrop-blur-xl"
+                    className="w-full glass-premium border-emerald text-platinum hover-float backdrop-blur-xl py-4"
                   >
-                    <MessageSquare className="h-4 w-4 mr-2" />
+                    <MessageSquare className="h-5 w-5 mr-2" />
                     {t('result.open_chat')}
                   </Button>
                 </div>
                 
                 {showAlternateRoute && (
-                  <div className="glass-panel p-4 bg-risk-low/10 border border-risk-low rounded-xl">
-                    <p className="text-sm text-risk-low font-medium">
+                  <div className="glass-premium p-6 bg-emerald/10 border border-emerald rounded-2xl">
+                    <p className="text-sm text-emerald font-medium leading-relaxed">
                       {analysis.recommended_route}
                     </p>
                   </div>
@@ -154,34 +154,34 @@ const MapResult = ({ analysis, onBack, onOpenChat, origin, destination }: MapRes
           </div>
           
           {/* Nearest Help Card */}
-          <div className="glass-panel-cyber hover-3d p-6 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-glass opacity-30"></div>
+          <div className="glass-sapphire hover-premium p-8 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-glass opacity-20"></div>
             <div className="relative">
-              <h2 className="text-lg font-bold cyber-title mb-4">{t('result.nearest_help')}</h2>
-              <div className="space-y-3">
+              <h2 className="text-xl font-semibold title-premium mb-6">{t('result.nearest_help')}</h2>
+              <div className="space-y-4">
                 {analysis.nearest_help.map((help, index) => (
-                  <div key={index} className="glass-panel p-4 bg-white/5 hover:bg-white/10 transition-all">
+                  <div key={index} className="glass-premium p-6 bg-white/5 hover:bg-white/10 transition-all rounded-2xl">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="font-medium text-cyber-white">{help.name}</p>
-                        <p className="text-sm cyber-text">
+                        <p className="font-medium text-platinum text-lg">{help.name}</p>
+                        <p className="text-sm text-premium mt-1">
                           {help.distance_km} km away
                         </p>
                       </div>
-                      <div className="flex space-x-2">
+                      <div className="flex space-x-3">
                         <Button
                           size="sm"
                           onClick={() => handleCall(help.phone, help.name)}
-                          className="glass-panel bg-cyber-cyan/20 hover:bg-cyber-cyan/30 border-cyber text-cyber-white hover-glow backdrop-blur-xl"
+                          className="btn-sapphire px-4 py-2"
                         >
-                          <Phone className="h-3 w-3 mr-1" />
+                          <Phone className="h-4 w-4 mr-2" />
                           {t('result.call')}
                         </Button>
                         <Button
                           size="sm"
                           variant="outline"
                           onClick={() => handleSMS(help.phone, help.name)}
-                          className="glass-panel border-purple text-cyber-white hover-glow backdrop-blur-xl"
+                          className="glass-premium border-emerald text-platinum hover-float backdrop-blur-xl px-4 py-2"
                         >
                           {t('result.sms')}
                         </Button>

@@ -4,7 +4,7 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { MapPin, Clock, Navigation, Shield, Zap, Eye } from 'lucide-react';
+import { MapPin, Clock, Navigation, Shield, Zap, Eye, Sparkles } from 'lucide-react';
 import { ScenarioKey } from '@/data/mockData';
 import heroImage from '@/assets/hero-safety-app.jpg';
 
@@ -63,62 +63,69 @@ const Home = ({ onSubmit }: HomeProps) => {
   };
   
   return (
-    <div className="min-h-screen bg-gradient-space">
+    <div className="min-h-screen bg-gradient-premium">
       {/* Hero Section */}
-      <div className="relative h-80 mb-8 overflow-hidden">
+      <div className="relative h-96 mb-12 overflow-hidden">
         <img
           src={heroImage}
           alt="GuardianAI Safety Technology"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-space/90 flex items-center justify-center">
-          <div className="text-center relative">
-            <div className="absolute inset-0 bg-cyber-cyan/20 blur-3xl rounded-full"></div>
-            <h1 className="text-6xl font-bold cyber-title mb-4 relative z-10">GuardianAI</h1>
-            <p className="text-2xl cyber-text relative z-10">Predictive Safety Companion</p>
-            <div className="flex items-center justify-center mt-6 space-x-6">
-              <div className="flex items-center glass-panel px-4 py-2 hover-glow">
-                <Shield className="w-5 h-5 text-cyber-cyan mr-2" />
-                <span className="text-sm text-cyber-white">AI-Powered</span>
+        <div className="absolute inset-0 bg-gradient-premium/85 flex items-center justify-center">
+          <div className="text-center relative max-w-4xl mx-auto">
+            <div className="absolute inset-0 bg-sapphire/10 blur-3xl rounded-full animate-float-gentle"></div>
+            <h1 className="text-7xl font-semibold title-premium mb-6 relative z-10 tracking-tight">
+              GuardianAI
+            </h1>
+            <p className="text-3xl text-premium relative z-10 mb-8 font-light">
+              Predictive Safety Companion
+            </p>
+            <div className="flex items-center justify-center mt-8 space-x-8">
+              <div className="flex items-center glass-premium px-6 py-3 hover-float">
+                <Shield className="w-6 h-6 text-sapphire mr-3" />
+                <span className="text-base text-platinum font-medium">AI-Powered</span>
               </div>
-              <div className="flex items-center glass-panel px-4 py-2 hover-glow">
-                <Zap className="w-5 h-5 text-cyber-purple-accent mr-2" />
-                <span className="text-sm text-cyber-white">Real-Time</span>
+              <div className="flex items-center glass-premium px-6 py-3 hover-float">
+                <Zap className="w-6 h-6 text-emerald mr-3" />
+                <span className="text-base text-platinum font-medium">Real-Time</span>
               </div>
-              <div className="flex items-center glass-panel px-4 py-2 hover-glow">
-                <Eye className="w-5 h-5 text-risk-low mr-2" />
-                <span className="text-sm text-cyber-white">Predictive</span>
+              <div className="flex items-center glass-premium px-6 py-3 hover-float">
+                <Eye className="w-6 h-6 text-amber mr-3" />
+                <span className="text-base text-platinum font-medium">Predictive</span>
               </div>
             </div>
           </div>
         </div>
       </div>
       
-      <div className="max-w-3xl mx-auto space-y-8 px-6">
-        <Card className="glass-panel-cyber relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-cyber opacity-10"></div>
+      <div className="max-w-4xl mx-auto space-y-12 px-8">
+        <Card className="glass-sapphire relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-glass opacity-30"></div>
           <CardHeader className="relative">
-            <CardTitle className="text-center text-3xl font-bold cyber-title">
+            <div className="flex items-center justify-center mb-4">
+              <Sparkles className="w-8 h-8 text-sapphire mr-3" />
+            </div>
+            <CardTitle className="text-center text-4xl font-semibold title-premium tracking-tight">
               Analyze Your Route Safety
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-8 relative">
-            <div className="space-y-6">
+          <CardContent className="space-y-10 relative">
+            <div className="space-y-8">
               <div className="relative">
-                <div className="absolute left-4 top-4 z-10">
-                  <MapPin className="h-5 w-5 text-cyber-cyan" />
+                <div className="absolute left-6 top-6 z-10">
+                  <MapPin className="h-6 w-6 text-sapphire" />
                 </div>
                 <Input
                   placeholder={t('home.from.placeholder')}
                   value={from}
                   onChange={(e) => setFrom(e.target.value)}
-                  className="pl-12 pr-32 h-14 glass-panel border-cyber text-cyber-white placeholder:text-cyber-gray bg-transparent backdrop-blur-xl"
+                  className="pl-16 pr-40 h-16 glass-premium border-sapphire text-platinum placeholder:text-silver bg-transparent backdrop-blur-xl text-lg"
                 />
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={handleUseLocation}
-                  className="absolute right-2 top-2 h-10 px-4 glass-panel border-purple text-cyber-white hover-glow backdrop-blur-xl"
+                  className="absolute right-3 top-3 h-10 px-6 glass-premium border-emerald text-platinum hover-float backdrop-blur-xl"
                 >
                   <Navigation className="h-4 w-4 mr-2" />
                   {t('home.use_location')}
@@ -126,76 +133,76 @@ const Home = ({ onSubmit }: HomeProps) => {
               </div>
               
               <div className="relative">
-                <div className="absolute left-4 top-4 z-10">
-                  <MapPin className="h-5 w-5 text-cyber-purple-accent" />
+                <div className="absolute left-6 top-6 z-10">
+                  <MapPin className="h-6 w-6 text-emerald" />
                 </div>
                 <Input
                   placeholder={t('home.to.placeholder')}
                   value={to}
                   onChange={(e) => setTo(e.target.value)}
-                  className="pl-12 h-14 glass-panel border-purple text-cyber-white placeholder:text-cyber-gray bg-transparent backdrop-blur-xl"
+                  className="pl-16 h-16 glass-premium border-emerald text-platinum placeholder:text-silver bg-transparent backdrop-blur-xl text-lg"
                 />
               </div>
               
               <div className="relative">
-                <div className="absolute left-4 top-4 z-10">
-                  <Clock className="h-5 w-5 text-risk-medium" />
+                <div className="absolute left-6 top-6 z-10">
+                  <Clock className="h-6 w-6 text-amber" />
                 </div>
                 <Input
                   placeholder={t('home.time.now')}
                   value={time}
                   onChange={(e) => setTime(e.target.value)}
-                  className="pl-12 h-14 glass-panel border-cyber text-cyber-white placeholder:text-cyber-gray bg-transparent backdrop-blur-xl"
+                  className="pl-16 h-16 glass-premium border-premium text-platinum placeholder:text-silver bg-transparent backdrop-blur-xl text-lg"
                 />
               </div>
             </div>
             
-            <div className="space-y-4">
-              <label className="text-sm font-medium cyber-text">
+            <div className="space-y-6">
+              <label className="text-base font-medium text-premium">
                 {t('home.demo_presets')}
               </label>
               <Select value={selectedPreset} onValueChange={handlePresetChange}>
-                <SelectTrigger className="glass-panel border-cyber text-cyber-white bg-transparent backdrop-blur-xl h-12">
+                <SelectTrigger className="glass-premium border-premium text-platinum bg-transparent backdrop-blur-xl h-14 text-base">
                   <SelectValue placeholder="Choose demo scenario" />
                 </SelectTrigger>
-                <SelectContent className="glass-panel border-cyber backdrop-blur-xl bg-cyber-navy/90">
-                  <SelectItem value="college" className="text-cyber-white hover:bg-cyber-cyan/20">{t('home.preset_college')}</SelectItem>
-                  <SelectItem value="bus" className="text-cyber-white hover:bg-cyber-cyan/20">{t('home.preset_bus')}</SelectItem>
+                <SelectContent className="glass-premium border-premium backdrop-blur-xl bg-onyx/90">
+                  <SelectItem value="college" className="text-platinum hover:bg-sapphire/20 py-3">{t('home.preset_college')}</SelectItem>
+                  <SelectItem value="bus" className="text-platinum hover:bg-sapphire/20 py-3">{t('home.preset_bus')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             
             <Button
               onClick={handleSubmit}
-              className="w-full text-lg py-8 glass-panel bg-gradient-cyber border-cyber hover-glow backdrop-blur-xl font-bold text-cyber-white transition-glow"
+              className="w-full text-xl py-10 btn-sapphire font-semibold tracking-wide"
               size="lg"
             >
-              <Shield className="w-6 h-6 mr-3" />
+              <Shield className="w-8 h-8 mr-4" />
               {t('home.check_safety')}
             </Button>
           </CardContent>
         </Card>
         
         {/* About Card */}
-        <Card className="glass-panel-purple relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-glass opacity-20"></div>
+        <Card className="glass-emerald relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-glass opacity-25"></div>
           <CardHeader className="relative">
-            <CardTitle className="text-xl cyber-title">{t('about.title')}</CardTitle>
+            <CardTitle className="text-2xl title-premium">{t('about.title')}</CardTitle>
           </CardHeader>
           <CardContent className="relative">
-            <ul className="space-y-3 text-cyber-gray">
+            <ul className="space-y-4 text-premium text-base">
               <li className="flex items-start">
-                <span className="text-cyber-cyan mr-3">•</span>
-                {t('about.predict')}
+                <span className="text-sapphire mr-4 text-lg">•</span>
+                <span className="leading-relaxed">{t('about.predict')}</span>
               </li>
               <li className="flex items-start">
-                <span className="text-cyber-purple-accent mr-3">•</span>
-                {t('about.scalable')}
+                <span className="text-emerald mr-4 text-lg">•</span>
+                <span className="leading-relaxed">{t('about.scalable')}</span>
               </li>
             </ul>
-            <div className="mt-6 glass-panel p-4 bg-cyber-cyan/10 border border-cyber-cyan/30 rounded-xl">
-              <p className="text-xs cyber-text">
-                🔧 <strong className="text-cyber-white">API Integration:</strong> GuardianAI is configured with Google Maps API for live route analysis and Places API for emergency services. Mock data is used as fallback when APIs are unavailable.
+            <div className="mt-8 glass-premium p-6 bg-sapphire/10 border border-sapphire/30 rounded-2xl">
+              <p className="text-sm text-premium leading-relaxed">
+                🔧 <strong className="text-platinum">API Integration:</strong> GuardianAI is configured with Google Maps API for live route analysis and Places API for emergency services. Mock data is used as fallback when APIs are unavailable.
               </p>
             </div>
           </CardContent>

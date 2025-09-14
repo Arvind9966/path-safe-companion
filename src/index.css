@@ -8,69 +8,72 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Futuristic Cyberpunk Design System */
-    --background: 218 100% 12%; /* Deep Space Navy #0F172A */
-    --foreground: 210 40% 95%; /* Light text #F1F5F9 */
+    /* Premium Design System - Apple-inspired */
+    --background: 240 4% 6%; /* Deep charcoal #0E0E10 */
+    --foreground: 210 11% 92%; /* Platinum text #E6E8EB */
 
-    --card: 240 10% 15% / 0.8; /* Glassmorphism base */
-    --card-foreground: 210 40% 95%;
+    --card: 240 3% 10% / 0.85; /* Premium frosted glass */
+    --card-foreground: 210 11% 92%;
 
-    --popover: 240 10% 15% / 0.9;
-    --popover-foreground: 210 40% 95%;
+    --popover: 240 3% 10% / 0.95;
+    --popover-foreground: 210 11% 92%;
 
-    --primary: 198 93% 60%; /* Cyan #06B6D4 */
-    --primary-foreground: 210 40% 98%;
+    --primary: 217 91% 60%; /* Sapphire Blue #2D81F7 */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 262 83% 58%; /* Purple #7C3AED */
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 167 100% 36%; /* Emerald Green #00B686 */
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 215 28% 17% / 0.6;
-    --muted-foreground: 215 20.2% 65.1%; /* #94A3B8 */
+    --muted: 240 5% 15% / 0.7;
+    --muted-foreground: 215 14% 78%; /* Cool silver #C0C4CC */
 
-    --accent: 198 93% 60%; /* Cyan */
-    --accent-foreground: 210 40% 98%;
+    --accent: 217 91% 60%; /* Sapphire Blue */
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 72% 51%; /* Red #DC2626 */
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 73% 50%; /* Deep Crimson #D72638 */
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 198 93% 60% / 0.3; /* Cyan glow border */
-    --input: 240 10% 15% / 0.8;
-    --ring: 198 93% 60%;
+    --border: 240 6% 25% / 0.4; /* Subtle premium border */
+    --input: 240 3% 10% / 0.8;
+    --ring: 217 91% 60%;
 
-    /* Cyberpunk Color Palette */
-    --cyber-navy: 218 100% 12%; /* Deep Space Navy #0F172A */
-    --cyber-purple: 240 67% 20%; /* Midnight Purple #1E1B4B */
-    --cyber-cyan: 198 93% 60%; /* Cyan #06B6D4 */
-    --cyber-purple-accent: 262 83% 58%; /* Purple #7C3AED */
-    --cyber-white: 210 40% 95%; /* White #F1F5F9 */
-    --cyber-gray: 215 20.2% 65.1%; /* Gray #94A3B8 */
+    /* Premium Color Palette */
+    --charcoal: 240 4% 6%; /* Deep charcoal #0E0E10 */
+    --onyx: 240 4% 10%; /* Onyx #1A1A1D */
+    --platinum: 210 11% 92%; /* Platinum #E6E8EB */
+    --silver: 215 14% 78%; /* Cool silver #C0C4CC */
+    --sapphire: 217 91% 60%; /* Sapphire Blue #2D81F7 */
+    --emerald: 167 100% 36%; /* Emerald Green #00B686 */
+    --crimson: 0 73% 50%; /* Deep Crimson #D72638 */
+    --amber: 38 100% 56%; /* Muted Amber #FFB020 */
     
-    /* Risk Colors with Glow */
-    --risk-low: 142 71% 45%; /* Green #22C55E */
-    --risk-low-glow: 142 71% 45% / 0.3;
-    --risk-medium: 48 96% 53%; /* Amber #FACC15 */
-    --risk-medium-glow: 48 96% 53% / 0.3;
-    --risk-high: 0 72% 51%; /* Red #DC2626 */
-    --risk-high-glow: 0 72% 51% / 0.4;
+    /* Risk Colors - Premium */
+    --risk-low: 167 100% 36%; /* Emerald Green */
+    --risk-low-bg: 167 100% 36% / 0.1;
+    --risk-medium: 38 100% 56%; /* Muted Amber */
+    --risk-medium-bg: 38 100% 56% / 0.1;
+    --risk-high: 0 73% 50%; /* Deep Crimson */
+    --risk-high-bg: 0 73% 50% / 0.1;
     
-    --emergency: 0 72% 51%; /* Red #DC2626 */
-    --emergency-glow: 0 72% 51% / 0.6;
+    --emergency: 0 73% 50%; /* Deep Crimson */
+    --emergency-hover: 0 73% 45%;
     
-    /* 3D Gradients */
-    --gradient-space: linear-gradient(135deg, hsl(var(--cyber-navy)), hsl(var(--cyber-purple)));
-    --gradient-cyber: linear-gradient(135deg, hsl(var(--cyber-cyan)), hsl(var(--cyber-purple-accent)));
-    --gradient-risk: conic-gradient(from 0deg, hsl(var(--risk-low)), hsl(var(--risk-medium)), hsl(var(--risk-high)));
-    --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    /* Premium Gradients */
+    --gradient-premium: linear-gradient(135deg, hsl(var(--charcoal)), hsl(var(--onyx)));
+    --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+    --gradient-sapphire: linear-gradient(135deg, hsl(var(--sapphire)), hsl(217 91% 70%));
+    --gradient-emerald: linear-gradient(135deg, hsl(var(--emerald)), hsl(167 100% 45%));
     
-    /* 3D Shadows & Glows */
-    --shadow-cyber: 0 20px 40px -10px hsl(var(--cyber-cyan) / 0.3), 0 0 20px hsl(var(--cyber-cyan) / 0.2);
-    --shadow-purple: 0 20px 40px -10px hsl(var(--cyber-purple-accent) / 0.3), 0 0 20px hsl(var(--cyber-purple-accent) / 0.2);
-    --shadow-emergency: 0 20px 40px -10px hsl(var(--emergency) / 0.4), 0 0 30px hsl(var(--emergency) / 0.3);
-    --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.37);
+    /* Premium Shadows */
+    --shadow-premium: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05);
+    --shadow-sapphire: 0 20px 40px -12px hsl(var(--sapphire) / 0.3);
+    --shadow-emerald: 0 20px 40px -12px hsl(var(--emerald) / 0.3);
+    --shadow-crimson: 0 20px 40px -12px hsl(var(--crimson) / 0.4);
+    --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     
-    /* 3D Transforms & Transitions */
-    --transition-cyber: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-glow: box-shadow 0.3s ease, transform 0.3s ease;
+    /* Premium Transitions */
+    --transition-premium: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition-glass: backdrop-filter 0.3s ease, transform 0.3s ease;
 
     --radius: 0.5rem;
 
@@ -142,115 +145,141 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-gradient-space text-foreground;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    @apply bg-gradient-premium text-foreground;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+    font-feature-settings: 'kern' 1, 'liga' 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
-/* Cyberpunk 3D Utility Classes */
+/* Premium 3D Utility Classes */
 @layer components {
-  /* Glassmorphism Cards */
-  .glass-panel {
-    @apply backdrop-blur-xl bg-white/10 border border-primary/30 rounded-2xl;
-    box-shadow: var(--shadow-glass), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  /* Premium Frosted Glass Panels */
+  .glass-premium {
+    @apply backdrop-blur-3xl rounded-3xl border;
     background: var(--gradient-glass);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: var(--shadow-premium);
+    backdrop-filter: blur(40px) saturate(180%);
   }
 
-  .glass-panel-cyber {
-    @apply glass-panel;
-    box-shadow: var(--shadow-cyber);
-    border-color: hsl(var(--cyber-cyan) / 0.5);
+  .glass-sapphire {
+    @apply glass-premium;
+    box-shadow: var(--shadow-sapphire), var(--shadow-premium);
+    border-color: hsl(var(--sapphire) / 0.2);
   }
 
-  .glass-panel-purple {
-    @apply glass-panel;
-    box-shadow: var(--shadow-purple);
-    border-color: hsl(var(--cyber-purple-accent) / 0.5);
+  .glass-emerald {
+    @apply glass-premium;
+    box-shadow: var(--shadow-emerald), var(--shadow-premium);
+    border-color: hsl(var(--emerald) / 0.2);
   }
 
-  /* 3D Hover Effects */
-  .hover-3d {
-    @apply transition-all duration-300 hover:scale-105;
+  /* Premium 3D Hover Effects */
+  .hover-premium {
+    @apply transition-all duration-500;
     transform-style: preserve-3d;
+    transition: var(--transition-premium);
   }
 
-  .hover-3d:hover {
-    transform: translateY(-8px) rotateX(5deg) rotateY(5deg) scale(1.02);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  .hover-premium:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 35px 70px -15px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
   }
 
-  .hover-glow:hover {
-    filter: brightness(1.1);
-    box-shadow: 0 0 30px currentColor;
+  .hover-float:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.3);
   }
 
-  /* Risk Gauge */
-  .risk-gauge {
-    @apply relative w-24 h-24 rounded-full flex items-center justify-center;
-    background: var(--gradient-risk);
-    box-shadow: 0 0 30px hsl(var(--risk-medium) / 0.5);
-    animation: pulse-glow 2s ease-in-out infinite alternate;
+  /* Premium Typography */
+  .title-premium {
+    @apply text-platinum font-semibold tracking-tight;
+    font-weight: 600;
+    letter-spacing: -0.025em;
   }
 
-  .risk-gauge::before {
-    content: '';
-    @apply absolute inset-2 rounded-full bg-background/90;
+  .text-premium {
+    @apply text-silver;
+    font-weight: 400;
   }
 
-  /* Pulsing Animations */
-  .pulse-emergency {
-    animation: pulse-emergency 2s ease-in-out infinite;
+  .text-subtle {
+    @apply text-silver/70;
   }
 
-  .pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite alternate;
+  /* Premium Borders */
+  .border-premium {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
-  /* Typography */
-  .cyber-title {
-    @apply text-cyber-white font-bold tracking-wider;
-    text-shadow: 0 0 10px hsl(var(--cyber-cyan) / 0.5);
+  .border-sapphire {
+    border: 1px solid hsl(var(--sapphire) / 0.3);
+    box-shadow: 0 0 20px hsl(var(--sapphire) / 0.1);
   }
 
-  .cyber-text {
-    @apply text-cyber-gray;
+  .border-emerald {
+    border: 1px solid hsl(var(--emerald) / 0.3);
+    box-shadow: 0 0 20px hsl(var(--emerald) / 0.1);
   }
 
-  /* Neon Borders */
-  .border-cyber {
-    border: 1px solid hsl(var(--cyber-cyan) / 0.5);
-    box-shadow: 0 0 10px hsl(var(--cyber-cyan) / 0.3);
-  }
-
-  .border-purple {
-    border: 1px solid hsl(var(--cyber-purple-accent) / 0.5);
-    box-shadow: 0 0 10px hsl(var(--cyber-purple-accent) / 0.3);
-  }
-
-  /* Map Container */
-  .map-3d {
-    @apply transform;
-    transform: perspective(1000px) rotateX(5deg) rotateY(-5deg);
+  /* Premium Map Container */
+  .map-premium {
+    @apply transform rounded-3xl overflow-hidden;
+    transform: perspective(1200px) rotateX(2deg);
     transform-style: preserve-3d;
-    box-shadow: var(--shadow-cyber);
+    box-shadow: var(--shadow-premium);
+  }
+
+  /* Premium Buttons */
+  .btn-sapphire {
+    @apply glass-sapphire hover-float text-white font-medium;
+    background: var(--gradient-sapphire);
+    transition: var(--transition-premium);
+  }
+
+  .btn-emerald {
+    @apply glass-emerald hover-float text-white font-medium;
+    background: var(--gradient-emerald);
+    transition: var(--transition-premium);
+  }
+
+  .btn-crimson {
+    @apply hover-float text-white font-medium rounded-full;
+    background: linear-gradient(135deg, hsl(var(--crimson)), hsl(0 73% 40%));
+    box-shadow: var(--shadow-crimson);
+    transition: var(--transition-premium);
   }
 }
 
-/* Keyframe Animations */
-@keyframes pulse-emergency {
+/* Premium Keyframe Animations */
+@keyframes pulse-premium {
   0%, 100% {
-    box-shadow: 0 0 20px hsl(var(--emergency) / 0.8), 0 0 40px hsl(var(--emergency) / 0.4);
+    box-shadow: var(--shadow-crimson), 0 0 30px hsl(var(--crimson) / 0.5);
+    transform: scale(1);
   }
   50% {
-    box-shadow: 0 0 30px hsl(var(--emergency) / 1), 0 0 60px hsl(var(--emergency) / 0.6);
+    box-shadow: var(--shadow-crimson), 0 0 50px hsl(var(--crimson) / 0.8);
+    transform: scale(1.05);
   }
 }
 
-@keyframes pulse-glow {
+@keyframes float-gentle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes shimmer {
   0% {
-    box-shadow: 0 0 20px hsl(var(--cyber-cyan) / 0.5);
+    background-position: -200% 0;
   }
   100% {
-    box-shadow: 0 0 30px hsl(var(--cyber-cyan) / 0.8), 0 0 50px hsl(var(--cyber-cyan) / 0.4);
+    background-position: 200% 0;
   }
 }

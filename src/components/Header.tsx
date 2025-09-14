@@ -9,11 +9,11 @@ const Header = () => {
   };
   
   return (
-    <header className="glass-panel-cyber hover-3d p-6 m-4 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-cyber opacity-20"></div>
+    <header className="glass-premium hover-premium p-8 mx-6 mt-6 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-glass opacity-40"></div>
       <div className="relative flex items-center justify-between">
         <div className="flex items-center">
-          <h1 className="text-3xl font-bold cyber-title">
+          <h1 className="text-4xl font-semibold title-premium tracking-tight">
             {t('header.title')}
           </h1>
         </div>
@@ -22,7 +22,7 @@ const Header = () => {
           onClick={toggleLanguage}
           variant="outline"
           size="sm"
-          className="glass-panel hover-glow border-cyber text-cyber-white font-medium backdrop-blur-sm"
+          className="glass-premium hover-float border-sapphire text-platinum font-medium backdrop-blur-xl px-6 py-2"
         >
           {t('header.toggle')}
         </Button>

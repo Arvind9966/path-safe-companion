@@ -12,12 +12,12 @@ const SOSButton = ({ onClick }: SOSButtonProps) => {
   return (
     <Button
       onClick={onClick}
-      className="fixed bottom-6 right-6 w-20 h-20 rounded-full glass-panel pulse-emergency hover-3d bg-emergency/20 border-2 border-emergency backdrop-blur-xl z-50"
+      className="fixed bottom-8 right-8 w-24 h-24 btn-crimson animate-pulse-premium z-50 text-lg font-semibold"
       size="sm"
     >
-      <div className="flex flex-col items-center text-cyber-white">
-        <AlertTriangle className="h-8 w-8 mb-1" />
-        <span className="text-xs font-bold">{t('emergency.sos_button')}</span>
+      <div className="flex flex-col items-center text-white">
+        <AlertTriangle className="h-10 w-10 mb-2" />
+        <span className="text-sm font-bold">{t('emergency.sos_button')}</span>
       </div>
     </Button>
   );
